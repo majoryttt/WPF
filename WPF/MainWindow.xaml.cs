@@ -16,7 +16,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        SidebarSplitter.DragDelta += SidebarSplitter_DragDelta;
+        SidebarSplitter.DragDelta += SidebarSplitter_DragDelta; // Добавляем обработчик события перетаскивания
         AddHoverTriggers(); // Добавляем триггеры при запуске
     }
 
@@ -35,12 +35,12 @@ public partial class MainWindow : Window
       DragMove();
     }
 
-    private void SidebarSplitter_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+    private void SidebarSplitter_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e) // Обработчик события перетаскивания
     {
       double newWidth = Sidebar.Width + e.HorizontalChange;
       Sidebar.Width = Math.Max(150, Math.Min(400, newWidth));    }
 
-    private void PinButton_Click(object sender, RoutedEventArgs e)
+    private void PinButton_Click(object sender, RoutedEventArgs e) // Добавляем обработчик события нажатия на кнопку
     {
         isPinned = !isPinned;
         var transform = (TranslateTransform)Sidebar.RenderTransform;
@@ -94,7 +94,7 @@ public partial class MainWindow : Window
       PinIcon.Data = Geometry.Parse("M4,2 L4,8 M2,4 L6,4");
       AddHoverTriggers();
   }
-    private void AddHoverTriggers()
+    private void AddHoverTriggers() // Настройка скрытия и раскрытия Sidebar при наведении
     {
         Sidebar.Triggers.Clear();
 
@@ -126,7 +126,7 @@ public partial class MainWindow : Window
     }
     private int currentTask = 0;
 
-    private void GetSolutionButton_Click(object sender, RoutedEventArgs e)
+    private void GetSolutionButton_Click(object sender, RoutedEventArgs e) // Обработчик события нажатия на кнопку "Получить решение"
     {
         ResultTextBlock.Text = currentTask switch
         {
@@ -140,8 +140,8 @@ public partial class MainWindow : Window
             _ => string.Empty
         };
 
-        GetSolutionButton.Visibility = Visibility.Collapsed;
-        ResultTextBlock.Visibility = Visibility.Visible;
+        GetSolutionButton.Visibility = Visibility.Collapsed; // Скрываем кнопку "Получить решение"
+        ResultTextBlock.Visibility = Visibility.Visible; // Показываем блок с результатом
     }
 
     private void Task1_Click(object sender, RoutedEventArgs e)
