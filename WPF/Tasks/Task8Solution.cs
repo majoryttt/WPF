@@ -6,17 +6,22 @@ namespace WPF
 {
   public static class Task8Solution
   {
+    // Основной метод решения задачи
     public static string GetSolution(string text, string word)
     {
       StringBuilder result = new StringBuilder();
 
+      // Добавляем описание задачи в результат
       result.AppendLine("Даны текстовая строка и слово (например, ba). Напечатать все слова, входящие в эту текстовую строку, начинающиеся с букв заданного слова (например, bak, barber, baab, baalam), используя методы класса String\nили StringBuilder\n\n");
 
+      // Выводим введенные данные
       result.AppendLine($"Введенная строка: {text}");
       result.AppendLine($"Введенное слово: {word}\n");
 
+      // Находим слова, начинающиеся с букв заданного слова
       List<string> matchingWords = FindWordsStartingWith(text, word);
 
+      // Выводим найденные слова
       result.AppendLine("Слова, начинающиеся с букв заданного слова:");
       foreach (var matchedWord in matchingWords)
       {
@@ -26,14 +31,17 @@ namespace WPF
       return result.ToString();
     }
 
+    // Метод для поиска слов, начинающихся с букв заданного слова
     private static List<string> FindWordsStartingWith(string text, string word)
     {
       List<string> result = new List<string>();
+      // Разбиваем текст на слова, удаляя пустые элементы
       string[] words = text.Split(new char[] { ' ', ',', '.', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
 
       foreach (string w in words)
       {
         bool matches = true;
+        // Проверяем, совпадают ли буквы слова с буквами заданного слова
         for (int i = 0; i < Math.Min(w.Length, word.Length); i++)
         {
           if (char.ToLower(w[i]) != char.ToLower(word[i]))
@@ -42,6 +50,7 @@ namespace WPF
             break;
           }
         }
+        // Если слово подходит, добавляем его в результат
         if (matches)
         {
           result.Add(w);

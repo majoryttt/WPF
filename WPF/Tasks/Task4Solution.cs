@@ -7,42 +7,51 @@ namespace WPF
     {
         public static string GetSolution(string firstNumber, string secondNumber)
         {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new StringBuilder(); // Создаем объект StringBuilder для хранения результата
 
-            try
+            try // Обрабатываем исключения
             {
-              int num1 = Convert.ToInt32(firstNumber);
-              int num2 = Convert.ToInt32(secondNumber);
+                // Преобразуем входные строки в целые числа
+                int num1 = Convert.ToInt32(firstNumber);
+                int num2 = Convert.ToInt32(secondNumber);
 
-              int divisionResult = num1 / num2;
-              result.AppendLine($"Результат деления: {divisionResult}");
+                // Выполняем деление
+                int divisionResult = num1 / num2;
+                result.AppendLine($"Результат деления: {divisionResult}");
 
-              int[] array = new int[3];
-              array[5] = 10;
+                // Намеренно вызываем исключение для демонстрации
+                int[] array = new int[3];
+                array[5] = 10; // Это вызовет IndexOutOfRangeException
             }
             catch (DivideByZeroException exception)
             {
-              result.AppendLine("Ошибка: Деление на ноль невозможно.");
-              PrintExceptionDetails(exception, result);
+                // Обрабатываем исключение деления на ноль
+                result.AppendLine("Ошибка: Деление на ноль невозможно.");
+                PrintExceptionDetails(exception, result);
             }
             catch (IndexOutOfRangeException exception)
             {
-              result.AppendLine("Ошибка: Индекс массива выходит за пределы диапазона.");
-              PrintExceptionDetails(exception, result);
+                // Обрабатываем исключение выхода за границы массива
+                result.AppendLine("Ошибка: Индекс массива выходит за пределы диапазона.");
+                PrintExceptionDetails(exception, result);
             }
             catch (FormatException exception)
             {
-              result.AppendLine("Ошибка: Неверный формат входных данных.");
-              PrintExceptionDetails(exception, result);
+                // Обрабатываем исключение неверного формата входных данных
+                result.AppendLine("Ошибка: Неверный формат входных данных.");
+                PrintExceptionDetails(exception, result);
             }
             finally
             {
+                // Этот блок выполняется всегда, независимо от того, возникло исключение или нет
                 result.AppendLine("Программа завершена.");
             }
 
             return result.ToString();
         }
 
+
+        /// Выводит подробную информацию об исключении.
         private static void PrintExceptionDetails(Exception exception, StringBuilder result)
         {
             result.AppendLine($"Сообщение об ошибке: {exception.Message}");

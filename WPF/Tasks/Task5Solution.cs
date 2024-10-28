@@ -5,10 +5,11 @@ namespace WPF
 {
     public class ArrayHandler
     {
+        // Метод, генерирующий исключение IndexOutOfRangeException
         public void GenerateException()
         {
             int[] array = new int[3];
-            array[5] = 10;
+            array[5] = 10; // Это вызовет IndexOutOfRangeException
         }
     }
 
@@ -20,16 +21,19 @@ namespace WPF
 
             try
             {
+                // Создаем экземпляр ArrayHandler и вызываем метод, генерирующий исключение
                 ArrayHandler handler = new ArrayHandler();
                 handler.GenerateException();
             }
             catch (IndexOutOfRangeException exception)
             {
+                // Обрабатываем исключение выхода за границы массива
                 result.AppendLine("Ошибка: Индекс массива выходит за пределы диапазона.");
                 PrintExceptionDetails(exception, result);
             }
             finally
             {
+                // Этот блок выполняется всегда, независимо от того, возникло исключение или нет
                 result.AppendLine("Программа завершена.");
             }
 

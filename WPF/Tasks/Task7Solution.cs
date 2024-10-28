@@ -5,21 +5,27 @@ namespace WPF
 {
     public static class Task7Solution
     {
+        // Основной метод решения задачи
         public static string GetSolution()
         {
             StringBuilder result = new StringBuilder();
 
+            // Добавляем описание задачи в результат
             result.AppendLine("Написать и протестировать метод, находящий сумму элементов\nзаданного целочисленного ступенчатого массива, расположенных на первой и последней позиции каждой строки. Метод должен генерировать хотя\nбы одно исключение. Ступенчатый массив должен генерироваться случайным образом и выводиться на экран в методе Main.\n\n");
 
             try
             {
+                // Генерируем случайный ступенчатый массив
                 int[][] jaggedArray = GenerateRandomJaggedArray(5, 1, 10);
+                // Выводим сгенерированный массив
                 PrintJaggedArray(jaggedArray, result);
+                // Вычисляем сумму первых и последних элементов каждой строки
                 int sum = SumFirstAndLastElements(jaggedArray);
                 result.AppendLine($"Сумма элементов на первой и последней позиции каждой строки: {sum}");
             }
             catch (Exception exception)
             {
+                // Обрабатываем возможные исключения
                 result.AppendLine("Произошла ошибка:");
                 PrintExceptionDetails(exception, result);
             }
@@ -27,6 +33,7 @@ namespace WPF
             return result.ToString();
         }
 
+        // Метод для генерации случайного ступенчатого массива
         private static int[][] GenerateRandomJaggedArray(int rows, int minColumns, int maxColumns)
         {
             Random random = new Random();
@@ -44,6 +51,7 @@ namespace WPF
             return jaggedArray;
         }
 
+        // Метод для вывода ступенчатого массива
         private static void PrintJaggedArray(int[][] jaggedArray, StringBuilder result)
         {
             result.AppendLine("Сгенерированный ступенчатый массив:");
@@ -53,6 +61,7 @@ namespace WPF
             }
         }
 
+        // Метод для суммирования первых и последних элементов каждой строки
         private static int SumFirstAndLastElements(int[][] jaggedArray)
         {
             int sum = 0;
@@ -60,18 +69,20 @@ namespace WPF
             {
                 if (row.Length == 0)
                 {
+                    // Генерируем исключение, если строка пуста
                     throw new InvalidOperationException("Одна из строк массива пуста.");
                 }
 
-                sum += row[0];
+                sum += row[0]; // Добавляем первый элемент
                 if (row.Length > 1)
                 {
-                    sum += row[^1];
+                    sum += row[^1]; // Добавляем последний элемент, если он есть
                 }
             }
             return sum;
         }
 
+        // Метод для вывода подробной информации об исключении
         private static void PrintExceptionDetails(Exception exception, StringBuilder result)
         {
             result.AppendLine($"Сообщение об ошибке: {exception.Message}");

@@ -6,8 +6,8 @@ namespace WPF
     {
         public static string GetSolution()
         {
-            StringBuilder result = new StringBuilder();
-
+            StringBuilder result = new StringBuilder(); // Создаем объект StringBuilder для построения строки результата.
+            // Получаем размер каждого типа данных с помощью sizeof() и добавляем в result.
             result.AppendLine($"sizeof(bool) = {sizeof(bool)}");
             result.AppendLine($"sizeof(char) = {sizeof(char)}");
             result.AppendLine($"sizeof(sbyte) = {sizeof(sbyte)}");
