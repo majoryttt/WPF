@@ -123,6 +123,7 @@ public partial class MainWindow : Window
       ResultTextBlock.Visibility = Visibility.Collapsed;
       ReturnButton.Visibility = Visibility.Collapsed;
       InputPanel.Visibility = Visibility.Collapsed;
+      Task8InputPanel.Visibility = Visibility.Collapsed;
     }
     private int currentTask = 0;
 

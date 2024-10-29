@@ -11,9 +11,6 @@ namespace WPF
     {
       StringBuilder result = new StringBuilder();
 
-      // Добавляем описание задачи в результат
-      result.AppendLine("Даны текстовая строка и слово (например, ba). Напечатать все слова, входящие в эту текстовую строку, начинающиеся с букв заданного слова (например, bak, barber, baab, baalam), используя методы класса String\nили StringBuilder\n\n");
-
       // Выводим введенные данные
       result.AppendLine($"Введенная строка: {text}");
       result.AppendLine($"Введенное слово: {word}\n");
