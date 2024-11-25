@@ -8,30 +8,46 @@ namespace WPF.Tasks
 {
     public static class Task9Solution
     {
+        private static ObservableCollection<HistoricalEvent> events = new ObservableCollection<HistoricalEvent>();
+
         public static string GetSolution(int day, int month, int year, string eventName)
         {
             try
             {
-                var events = new ObservableCollection<HistoricalEvent>
-                {
-                    new HistoricalEvent(day, month, year, eventName),
-                    new HistoricalEvent(1, 1, 2000, "Миллениум"),
-                    new HistoricalEvent(12, 4, 1961, "Полет Гагарина в космос"),
-                    new HistoricalEvent(9, 5, 1945, "День Победы")
-                };
-
-                var latestEvent = HistoricalEvent.FindLatestEvent(events);
-                var searchedEvent = HistoricalEvent.FindEventByName(events, eventName);
-                var daysFromVictory = searchedEvent - events.First(e => e.EventName == "День Победы");
-
-                return $"Введенное событие: {searchedEvent}\n" +
-                       $"Самое позднее событие: {latestEvent}\n" +
-                       $"Дней между введенным событием и Днем Победы: {daysFromVictory}";
+                var newEvent = new HistoricalEvent(day, month, year, eventName);
+                events.Add(newEvent);
+                return $"Событие успешно добавлено: {newEvent}";
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
                 return $"Ошибка: {ex.Message}";
             }
+        }
+
+        public static void AddEvent(HistoricalEvent newEvent)
+        {
+            events.Add(newEvent);
+        }
+
+        public static string CompareEvents(List<HistoricalEvent> selectedEvents)
+        {
+            if (selectedEvents.Count < 2)
+                return "Выберите минимум два события для сравнения";
+
+            var result = new System.Text.StringBuilder();
+            var latestEvent = HistoricalEvent.FindLatestEvent(new ObservableCollection<HistoricalEvent>(selectedEvents));
+            result.AppendLine($"Самое позднее событие: {latestEvent}");
+
+            for (int i = 0; i < selectedEvents.Count; i++)
+            {
+                for (int j = i + 1; j < selectedEvents.Count; j++)
+                {
+                    var days = selectedEvents[i] - selectedEvents[j];
+                    result.AppendLine($"Между событиями '{selectedEvents[i].EventName}' и '{selectedEvents[j].EventName}': {days} дней");
+                }
+            }
+
+            return result.ToString();
         }
     }
 
@@ -49,30 +65,14 @@ namespace WPF.Tasks
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public HistoricalEvent()
-        {
-            day = 1;
-            month = 1;
-            year = 2000;
-            eventName = "Unknown Event";
-        }
-
         public HistoricalEvent(int day, int month, int year, string eventName)
         {
             if (!IsValidDate(day, month, year))
-                throw new ArgumentException("Invalid date");
+                throw new ArgumentException("Некорректная дата");
 
             this.day = day;
             this.month = month;
             this.year = year;
-            this.eventName = eventName ?? throw new ArgumentNullException(nameof(eventName));
-        }
-
-        public HistoricalEvent(string eventName)
-        {
-            this.day = 1;
-            this.month = 1;
-            this.year = 2000;
             this.eventName = eventName ?? throw new ArgumentNullException(nameof(eventName));
         }
 
@@ -82,7 +82,7 @@ namespace WPF.Tasks
             set
             {
                 if (!IsValidDate(value, month, year))
-                    throw new ArgumentException("Invalid day");
+                    throw new ArgumentException("Некорректный день");
                 day = value;
                 OnPropertyChanged();
             }
@@ -94,7 +94,7 @@ namespace WPF.Tasks
             set
             {
                 if (!IsValidDate(day, value, year))
-                    throw new ArgumentException("Invalid month");
+                    throw new ArgumentException("Некорректный месяц");
                 month = value;
                 OnPropertyChanged();
             }
@@ -106,7 +106,7 @@ namespace WPF.Tasks
             set
             {
                 if (!IsValidDate(day, month, value))
-                    throw new ArgumentException("Invalid year");
+                    throw new ArgumentException("Некорректный год");
                 year = value;
                 OnPropertyChanged();
             }
@@ -132,7 +132,7 @@ namespace WPF.Tasks
         public static HistoricalEvent FindLatestEvent(ObservableCollection<HistoricalEvent> events)
         {
             if (events == null || events.Count == 0)
-                throw new ArgumentException("Events collection is empty or null");
+                throw new ArgumentException("Коллекция событий пуста");
 
             return events.OrderByDescending(e => new DateTime(e.year, e.month, e.day)).First();
         }
@@ -145,19 +145,9 @@ namespace WPF.Tasks
             return day <= DateTime.DaysInMonth(year, month);
         }
 
-        public static HistoricalEvent FindEventByName(ObservableCollection<HistoricalEvent> events, string eventName)
-        {
-            if (string.IsNullOrEmpty(eventName))
-                throw new ArgumentException("Event name cannot be empty");
-
-            return events.FirstOrDefault(e => e.eventName.Equals(eventName, StringComparison.OrdinalIgnoreCase));
-        }
-
         public override string ToString()
         {
             return $"{eventName} ({day}/{month}/{year})";
         }
     }
 }
-
-
