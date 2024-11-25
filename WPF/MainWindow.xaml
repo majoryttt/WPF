@@ -139,7 +139,8 @@
                             <!-- Кнопка для задания 9 -->
                             <Button Content="Задание 9" Height="35" Margin="8,5"
                                     Background="#3E3E42" Foreground="White"
-                                    BorderThickness="0"/>
+                                    BorderThickness="0"
+                                    Click="Task9_Click"/>
                             <!-- Кнопка для задания 10 -->
                             <Button Content="Задание 10" Height="35" Margin="8,5"
                                     Background="#3E3E42" Foreground="White"
@@ -209,6 +210,51 @@
                                 BorderThickness="1"
                                 BorderBrush="Gray"
                                 Padding="5"/>
+                    </StackPanel>
+
+                    <StackPanel x:Name="Task9InputPanel" Visibility="Collapsed" Margin="0,0,0,20">
+                      <!-- Панель ввода новых событий -->
+                      <GroupBox Header="Добавление нового события" Margin="5" Foreground="White">
+                        <StackPanel>
+                          <TextBlock Text="День:" Foreground="White" Margin="0,5"/>
+                          <TextBox x:Name="Task9DayInput" Width="200" Height="30"/>
+
+                          <TextBlock Text="Месяц:" Foreground="White" Margin="0,5"/>
+                          <TextBox x:Name="Task9MonthInput" Width="200" Height="30"/>
+
+                          <TextBlock Text="Год:" Foreground="White" Margin="0,5"/>
+                          <TextBox x:Name="Task9YearInput" Width="200" Height="30"/>
+
+                          <TextBlock Text="Название события:" Foreground="White" Margin="0,5"/>
+                          <TextBox x:Name="Task9EventInput" Width="200" Height="30"/>
+
+                          <Button Content="Добавить событие"
+                                  Width="150" Height="30"
+                                  Margin="0,10"
+                                  Click="AddEvent_Click"/>
+                        </StackPanel>
+                      </GroupBox>
+
+                      <!-- Список всех событий -->
+                      <GroupBox Header="Список событий" Margin="5" Foreground="White">
+                        <StackPanel>
+                          <ListBox x:Name="EventsList"
+                                   Height="200"
+                                   SelectionMode="Multiple"
+                                   Background="#3E3E42"
+                                   Foreground="White"/>
+                          <Button Content="Удалить выбранные события"
+                                  Width="200" Height="30"
+                                  Margin="5"
+                                  Click="DeleteEvents_Click"/>
+                        </StackPanel>
+                      </GroupBox>
+
+                      <!-- Кнопка сравнения выбранных событий -->
+                      <Button Content="Сравнить выбранные события"
+                              Width="200" Height="30"
+                              Margin="5"
+                              Click="CompareEvents_Click"/>
                     </StackPanel>
 
                     <!-- Кнопка получения решения -->

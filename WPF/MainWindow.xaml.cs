@@ -1,14 +1,13 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using WPF.Tasks;
 
 namespace WPF;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
     private bool isPinned = false;
@@ -94,6 +93,77 @@ public partial class MainWindow : Window
       PinIcon.Data = Geometry.Parse("M4,2 L4,8 M2,4 L6,4");
       AddHoverTriggers();
   }
+
+  private void AddEvent_Click(object sender, RoutedEventArgs e)
+  {
+    try
+    {
+      var newEvent = new HistoricalEvent(
+        int.Parse(Task9DayInput.Text),
+        int.Parse(Task9MonthInput.Text),
+        int.Parse(Task9YearInput.Text),
+        Task9EventInput.Text
+      );
+
+      EventsList.Items.Add(newEvent);
+
+      Task9DayInput.Clear();
+      Task9MonthInput.Clear();
+      Task9YearInput.Clear();
+      Task9EventInput.Clear();
+
+      ResultTextBlock.Text = $"Событие успешно добавлено: {newEvent}";
+      ResultTextBlock.Visibility = Visibility.Visible;
+    }
+    catch (Exception ex)
+    {
+      ResultTextBlock.Text = $"Ошибка: {ex.Message}";
+      ResultTextBlock.Visibility = Visibility.Visible;
+    }
+  }
+
+  private void CompareEvents_Click(object sender, RoutedEventArgs e)
+  {
+    var selectedEvents = EventsList.SelectedItems.Cast<HistoricalEvent>().ToList();
+
+    if (selectedEvents.Count < 2)
+    {
+      ResultTextBlock.Text = "Выберите минимум два события для сравнения";
+    }
+    else
+    {
+      var latestEvent = HistoricalEvent.FindLatestEvent(new ObservableCollection<HistoricalEvent>(selectedEvents));
+      var result = new System.Text.StringBuilder();
+      result.AppendLine($"Самое позднее событие: {latestEvent}");
+
+      for (int i = 0; i < selectedEvents.Count; i++)
+      {
+        for (int j = i + 1; j < selectedEvents.Count; j++)
+        {
+          var days = selectedEvents[i] - selectedEvents[j];
+          result.AppendLine($"Между событиями '{selectedEvents[i].EventName}' и '{selectedEvents[j].EventName}': {days} дней");
+        }
+      }
+
+      ResultTextBlock.Text = result.ToString();
+    }
+
+    ResultTextBlock.Visibility = Visibility.Visible;
+  }
+
+  private void DeleteEvents_Click(object sender, RoutedEventArgs e)
+  {
+    var selectedEvents = EventsList.SelectedItems.Cast<HistoricalEvent>().ToList();
+
+    foreach (var eventToDelete in selectedEvents)
+    {
+      EventsList.Items.Remove(eventToDelete);
+    }
+
+    ResultTextBlock.Text = $"Удалено событий: {selectedEvents.Count}";
+    ResultTextBlock.Visibility = Visibility.Visible;
+  }
+
     private void AddHoverTriggers() // Настройка скрытия и раскрытия Sidebar при наведении
     {
         Sidebar.Triggers.Clear();
@@ -127,22 +197,27 @@ public partial class MainWindow : Window
     }
     private int currentTask = 0;
 
-    private void GetSolutionButton_Click(object sender, RoutedEventArgs e) // Обработчик события нажатия на кнопку "Получить решение"
+    private void GetSolutionButton_Click(object sender, RoutedEventArgs e)
     {
-        ResultTextBlock.Text = currentTask switch
-        {
-            1 => Task1Solution.GetSolution(),
-            2 => Task2Solution.GetSolution(),
-            4 => Task4Solution.GetSolution(FirstNumberInput.Text, SecondNumberInput.Text),
-            5 => Task5Solution.GetSolution(),
-            6 => Task6Solution.GetSolution(),
-            7 => Task7Solution.GetSolution(),
-            8 => Task8Solution.GetSolution(TextInput.Text, WordInput.Text),
-            _ => string.Empty
-        };
+      ResultTextBlock.Text = currentTask switch
+      {
+        1 => Task1Solution.GetSolution(),
+        2 => Task2Solution.GetSolution(),
+        4 => Task4Solution.GetSolution(FirstNumberInput.Text, SecondNumberInput.Text),
+        5 => Task5Solution.GetSolution(),
+        6 => Task6Solution.GetSolution(),
+        7 => Task7Solution.GetSolution(),
+        8 => Task8Solution.GetSolution(TextInput.Text, WordInput.Text),
+        9 => Task9Solution.GetSolution(
+          int.Parse(Task9DayInput.Text),
+          int.Parse(Task9MonthInput.Text),
+          int.Parse(Task9YearInput.Text),
+          Task9EventInput.Text),
+        _ => string.Empty
+      };
 
-        GetSolutionButton.Visibility = Visibility.Collapsed; // Скрываем кнопку "Получить решение"
-        ResultTextBlock.Visibility = Visibility.Visible; // Показываем блок с результатом
+      GetSolutionButton.Visibility = Visibility.Collapsed;
+      ResultTextBlock.Visibility = Visibility.Visible;
     }
 
     private void Task1_Click(object sender, RoutedEventArgs e)
@@ -202,7 +277,12 @@ public partial class MainWindow : Window
         ResultTextBlock.Visibility = Visibility.Collapsed;
         ReturnButton.Visibility = Visibility.Visible;
     }
+
+    private void Task9_Click(object sender, RoutedEventArgs e)
+    {
+      currentTask = 9;
+      Task9InputPanel.Visibility = Visibility.Visible;
+      ResultTextBlock.Visibility = Visibility.Collapsed;
+      ReturnButton.Visibility = Visibility.Visible;
+    }
 }
-
-
-
