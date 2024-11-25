@@ -1,1 +1,1 @@
-.
+You can't just move the files into your project. It's best to just create the same files and add the code from here.
