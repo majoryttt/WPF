@@ -6,10 +6,13 @@ using System.Runtime.CompilerServices;
 
 namespace WPF.Tasks
 {
+    // Статический класс для работы с историческими событиями
     public static class Task9Solution
     {
+        // Коллекция для хранения исторических событий
         private static ObservableCollection<HistoricalEvent> events = new ObservableCollection<HistoricalEvent>();
 
+        // Метод для добавления нового события и возврата результата операции
         public static string GetSolution(int day, int month, int year, string eventName)
         {
             try
@@ -24,11 +27,13 @@ namespace WPF.Tasks
             }
         }
 
+        // Метод для добавления события в коллекцию
         public static void AddEvent(HistoricalEvent newEvent)
         {
             events.Add(newEvent);
         }
 
+        // Метод для сравнения выбранных событий
         public static string CompareEvents(List<HistoricalEvent> selectedEvents)
         {
             if (selectedEvents.Count < 2)
@@ -38,6 +43,7 @@ namespace WPF.Tasks
             var latestEvent = HistoricalEvent.FindLatestEvent(new ObservableCollection<HistoricalEvent>(selectedEvents));
             result.AppendLine($"Самое позднее событие: {latestEvent}");
 
+            // Сравнение всех событий попарно
             for (int i = 0; i < selectedEvents.Count; i++)
             {
                 for (int j = i + 1; j < selectedEvents.Count; j++)
@@ -51,13 +57,16 @@ namespace WPF.Tasks
         }
     }
 
+    // Класс для представления исторического события
     public class HistoricalEvent : INotifyPropertyChanged
     {
+        // Приватные поля для хранения данных события
         private int day;
         private int month;
         private int year;
         private string eventName;
 
+        // Реализация интерфейса INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -65,6 +74,7 @@ namespace WPF.Tasks
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        // Конструктор с проверкой корректности даты
         public HistoricalEvent(int day, int month, int year, string eventName)
         {
             if (!IsValidDate(day, month, year))
@@ -76,6 +86,7 @@ namespace WPF.Tasks
             this.eventName = eventName ?? throw new ArgumentNullException(nameof(eventName));
         }
 
+        // Свойства с проверкой корректности значений
         public int Day
         {
             get => day;
@@ -122,6 +133,7 @@ namespace WPF.Tasks
             }
         }
 
+        // Перегрузка оператора вычитания для подсчета дней между событиями
         public static int operator -(HistoricalEvent event1, HistoricalEvent event2)
         {
             DateTime date1 = new DateTime(event1.year, event1.month, event1.day);
@@ -129,6 +141,7 @@ namespace WPF.Tasks
             return Math.Abs((date1 - date2).Days);
         }
 
+        // Метод для поиска самого позднего события
         public static HistoricalEvent FindLatestEvent(ObservableCollection<HistoricalEvent> events)
         {
             if (events == null || events.Count == 0)
@@ -137,6 +150,7 @@ namespace WPF.Tasks
             return events.OrderByDescending(e => new DateTime(e.year, e.month, e.day)).First();
         }
 
+        // Метод проверки корректности даты
         private bool IsValidDate(int day, int month, int year)
         {
             if (year < 1 || month < 1 || month > 12 || day < 1)
@@ -145,6 +159,7 @@ namespace WPF.Tasks
             return day <= DateTime.DaysInMonth(year, month);
         }
 
+        // Переопределение метода ToString для удобного отображения события
         public override string ToString()
         {
             return $"{eventName} ({day}/{month}/{year})";
