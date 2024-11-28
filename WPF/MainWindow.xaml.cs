@@ -194,7 +194,9 @@ public partial class MainWindow : Window
       ReturnButton.Visibility = Visibility.Collapsed;
       InputPanel.Visibility = Visibility.Collapsed;
       Task8InputPanel.Visibility = Visibility.Collapsed;
+      Task9InputPanel.Visibility = Visibility.Collapsed;  // Add this line
     }
+
     private int currentTask = 0;
 
     private void GetSolutionButton_Click(object sender, RoutedEventArgs e)
