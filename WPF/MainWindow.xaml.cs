@@ -60,19 +60,20 @@ public partial class MainWindow : Window
 
   private void MenuItem1_Click(object sender, RoutedEventArgs e)
   {
-      SecondarySidebar.Visibility = Visibility.Visible;
+      OOPSidebar.Visibility = Visibility.Visible;
       PinSidebar();
   }
 
   private void MenuItem2_Click(object sender, RoutedEventArgs e)
   {
-      SecondarySidebar.Visibility = Visibility.Visible;
+      DiscreteMathSidebar.Visibility = Visibility.Visible;
       PinSidebar();
   }
 
   private void CloseSecondarySidebar_Click(object sender, RoutedEventArgs e)
   {
-      SecondarySidebar.Visibility = Visibility.Collapsed;
+      DiscreteMathSidebar.Visibility = Visibility.Collapsed;
+      OOPSidebar.Visibility = Visibility.Collapsed;
       UnpinSidebar();
   }
 
@@ -287,4 +288,13 @@ public partial class MainWindow : Window
       ResultTextBlock.Visibility = Visibility.Collapsed;
       ReturnButton.Visibility = Visibility.Visible;
     }
+
+    private void Task5MachSolution_Click(object sender, RoutedEventArgs e)
+    {
+      currentTask = 15;
+      GetSolutionButton.Visibility = Visibility.Visible;
+      ResultTextBlock.Visibility = Visibility.Collapsed;
+      ReturnButton.Visibility = Visibility.Visible;
+    }
+
 }
