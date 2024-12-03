@@ -27,12 +27,6 @@ namespace WPF.Tasks
             }
         }
 
-        // Метод для добавления события в коллекцию
-        public static void AddEvent(HistoricalEvent newEvent)
-        {
-            events.Add(newEvent);
-        }
-
         // Метод для сравнения выбранных событий
         public static string CompareEvents(List<HistoricalEvent> selectedEvents)
         {
@@ -133,7 +127,6 @@ namespace WPF.Tasks
             }
         }
 
-        // Перегрузка оператора вычитания для подсчета дней между событиями
         public static int operator -(HistoricalEvent event1, HistoricalEvent event2)
         {
             DateTime date1 = new DateTime(event1.year, event1.month, event1.day);
