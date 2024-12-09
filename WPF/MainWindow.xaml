@@ -161,6 +161,10 @@
                         <Button Content="Задание 9" Height="35" Margin="8,5"
                                 Background="#3E3E42" Foreground="White"
                                 BorderThickness="0" Click="Task9_Click"/>
+                        
+                        <Button Content="Задание 10" Height="35" Margin="8,5"
+                                Background="#3E3E42" Foreground="White"
+                                BorderThickness="0" Click="Task10_Click"/>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
