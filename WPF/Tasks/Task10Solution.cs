@@ -7,19 +7,19 @@ namespace WPF.Tasks
     // Базовый класс для строки
     public class CStr
     {
-        protected string Value { get; set; } // Свойство для хранения значения строки
+        protected string Value { get; set; }
 
-        public CStr() // Конструктор по умолчанию
+        public CStr()
         {
             Value = string.Empty;
         }
 
-        public CStr(string value) // Конструктор с параметром
+        public CStr(string value)
         {
             Value = value;
         }
 
-        public override string ToString() // Переопределение метода ToString для вывода значения строки
+        public override string ToString()
         {
             return Value;
         }
@@ -28,17 +28,17 @@ namespace WPF.Tasks
     // Производный класс для шестнадцатеричной строки
     public class CSStr : CStr
     {
-        private static readonly char[] ValidHexChars = "0123456789ABCDEFabcdef".ToCharArray(); // Допустимые символы в шестнадцатеричной строке
+        private static readonly char[] ValidHexChars = "0123456789ABCDEFabcdef".ToCharArray();
 
-        public CSStr() : base() // Конструктор по умолчанию
+        public CSStr() : base()
         {
         }
 
-        public CSStr(string value) : base(ValidateHexString(value)) // Конструктор с параметром и валидацией шестнадцатеричной строки
+        public CSStr(string value) : base(ValidateHexString(value))
         {
         }
 
-        private static string ValidateHexString(string value) // Метод для валидации шестнадцатеричной строки
+        private static string ValidateHexString(string value)
         {
             if (string.IsNullOrEmpty(value) || !value.All(c => ValidHexChars.Contains(c)))
             {
@@ -47,44 +47,44 @@ namespace WPF.Tasks
             return value.ToUpper();
         }
 
-        public int ToDecimal()  // Метод для преобразования строки в десятичное значение
+        public int ToDecimal()
         {
             return Convert.ToInt32(Value, 16);
         }
 
-        public void InvertSign() // Метод для инверсии знака значения строки
+        public void InvertSign()
         {
             int decimalValue = ToDecimal();
             decimalValue = -decimalValue;
             Value = decimalValue.ToString("X");
         }
 
-        public static CSStr operator +(CSStr str1, CSStr str2) // Перегрузка оператора + для сложения двух строк
+        public static CSStr operator +(CSStr str1, CSStr str2)
         {
             int sum = str1.ToDecimal() + str2.ToDecimal();
             return new CSStr(sum.ToString("X"));
         }
 
-        public static bool operator ==(CSStr str1, CSStr str2) // Перегрузка оператора == для сравнения двух строк
+        public static bool operator ==(CSStr str1, CSStr str2)
         {
             if (ReferenceEquals(str1, null))
                 return ReferenceEquals(str2, null);
             return str1.ToDecimal() == str2.ToDecimal();
         }
 
-        public static bool operator !=(CSStr str1, CSStr str2) // Перегрузка оператора != для сравнения двух строк
+        public static bool operator !=(CSStr str1, CSStr str2)
         {
             return !(str1 == str2);
         }
 
-        public override bool Equals(object obj) // Переопределение метода Equals для сравнения объектов
+        public override bool Equals(object obj)
         {
             if (obj is CSStr other)
                 return this == other;
             return false;
         }
 
-        public override int GetHashCode() // Переопределение метода GetHashCode для получения хэш-кода объекта
+        public override int GetHashCode()
         {
             return Value?.GetHashCode() ?? 0;
         }
@@ -133,4 +133,4 @@ namespace WPF.Tasks
             return result.ToString();
         }
     }
-} // GG
+}
