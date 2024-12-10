@@ -216,6 +216,7 @@ public partial class MainWindow : Window
           int.Parse(Task9MonthInput.Text),
           int.Parse(Task9YearInput.Text),
           Task9EventInput.Text),
+        10 => Task10Solution.GetSolution(),
         _ => string.Empty
       };
 
@@ -287,6 +288,14 @@ public partial class MainWindow : Window
       Task9InputPanel.Visibility = Visibility.Visible;
       ResultTextBlock.Visibility = Visibility.Collapsed;
       ReturnButton.Visibility = Visibility.Visible;
+    }
+
+    private void Task10_Click(object sender, RoutedEventArgs e)
+    {
+        currentTask = 10;
+        GetSolutionButton.Visibility = Visibility.Visible;
+        ResultTextBlock.Visibility = Visibility.Collapsed;
+        ReturnButton.Visibility = Visibility.Visible;
     }
 
     private void Task5MachSolution_Click(object sender, RoutedEventArgs e)
