@@ -289,6 +289,14 @@ public partial class MainWindow : Window
       ResultTextBlock.Visibility = Visibility.Collapsed;
       ReturnButton.Visibility = Visibility.Visible;
     }
+    
+    private void Task10_Click(object sender, RoutedEventArgs e)
+    {
+        currentTask = 10;
+        GetSolutionButton.Visibility = Visibility.Visible;
+        ResultTextBlock.Visibility = Visibility.Collapsed;
+        ReturnButton.Visibility = Visibility.Visible;
+    }
 
     private void Task10_Click(object sender, RoutedEventArgs e)
     {
