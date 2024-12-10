@@ -133,4 +133,4 @@ namespace WPF.Tasks
             return result.ToString();
         }
     }
-}
+} // GG
