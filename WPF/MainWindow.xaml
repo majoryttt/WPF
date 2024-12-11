@@ -102,6 +102,30 @@
                             Foreground="White"
                             BorderThickness="0"
                             Click="CloseSecondarySidebar_Click"/>
+                    
+                    <Button Content="Задание 1"
+                            Height="35"
+                            Margin="8,5"
+                            Background="#3E3E42"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Click="Task1MachSolution_Click"/>
+                    
+                    <Button Content="Задание 3"
+                            Height="35"
+                            Margin="8,5"
+                            Background="#3E3E42"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Click="Task3MachSolution_Click"/>
+                    
+                    <Button Content="Задание 4"
+                            Height="35"
+                            Margin="8,5"
+                            Background="#3E3E42"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Click="Task4MachSolution_Click"/>
 
                     <Button Content="Задание 5"
                             Height="35"
@@ -174,141 +198,266 @@
                 </ScrollViewer>
             </Grid>
             </Border>
+              <!-- Основная область контента -->
+              <Grid x:Name="MainContent" Margin="160,0,0,0">
+                  <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                      <!-- Панель ввода для стандартных задач -->
+                      <StackPanel x:Name="InputPanel" Visibility="Collapsed" Margin="0,0,0,20">
+                          <!-- Поле ввода первого числа -->
+                          <TextBox x:Name="FirstNumberInput"
+                                  Width="200" Height="30"
+                                  Margin="0,0,0,10"
+                                  Background="#3E3E42"
+                                  Foreground="White"
+                                  BorderThickness="1"
+                                  BorderBrush="Gray"
+                                  Padding="5"/>
+                          <!-- Поле ввода второго числа -->
+                          <TextBox x:Name="SecondNumberInput"
+                                  Width="200" Height="30"
+                                  Background="#3E3E42"
+                                  Foreground="White"
+                                  BorderThickness="1"
+                                  BorderBrush="Gray"
+                                  Padding="5"/>
+                      </StackPanel>
 
-
-            <!-- Основная область контента -->
-            <Grid x:Name="MainContent" Margin="160,0,0,0">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <!-- Панель ввода для стандартных задач -->
-                    <StackPanel x:Name="InputPanel" Visibility="Collapsed" Margin="0,0,0,20">
-                        <!-- Поле ввода первого числа -->
-                        <TextBox x:Name="FirstNumberInput"
-                                Width="200" Height="30"
-                                Margin="0,0,0,10"
-                                Background="#3E3E42"
-                                Foreground="White"
-                                BorderThickness="1"
-                                BorderBrush="Gray"
-                                Padding="5"/>
-                        <!-- Поле ввода второго числа -->
-                        <TextBox x:Name="SecondNumberInput"
-                                Width="200" Height="30"
-                                Background="#3E3E42"
-                                Foreground="White"
-                                BorderThickness="1"
-                                BorderBrush="Gray"
-                                Padding="5"/>
-                    </StackPanel>
-
-                    <!-- Специальная панель ввода для задания 8 -->
-                    <StackPanel x:Name="Task8InputPanel"
-                              Visibility="Collapsed"
-                              Margin="0,0,0,20">
-                        <!-- Метка и поле для ввода текста -->
-                        <TextBlock Text="Введите текст:"
+                      <!-- Специальная панель ввода для задания 8 -->
+                      <StackPanel x:Name="Task8InputPanel"
+                                Visibility="Collapsed"
+                                Margin="0,0,0,20">
+                          <!-- Метка и поле для ввода текста -->
+                          <TextBlock Text="Введите текст:"
                                    Foreground="White"
                                    Margin="0,0,0,5"/>
-                        <TextBox x:Name="TextInput"
-                                Width="400" Height="30"
-                                Margin="0,0,0,20"
-                                Background="#3E3E42"
-                                Foreground="White"
-                                BorderThickness="1"
-                                BorderBrush="Gray"
-                                Padding="5"/>
-                        <!-- Метка и поле для ввода слова -->
-                        <TextBlock Text="Введите слово:"
+                          <TextBox x:Name="TextInput"
+                                  Width="400" Height="30"
+                                  Margin="0,0,0,20"
+                                  Background="#3E3E42"
+                                  Foreground="White"
+                                  BorderThickness="1"
+                                  BorderBrush="Gray"
+                                  Padding="5"/>
+                          <!-- Метка и поле для ввода слова -->
+                          <TextBlock Text="Введите слово:"
                                    Foreground="White"
                                    Margin="0,0,0,5"/>
-                        <TextBox x:Name="WordInput"
-                                Width="400" Height="30"
-                                Margin="0,0,0,30"
-                                Background="#3E3E42"
-                                Foreground="White"
-                                BorderThickness="1"
-                                BorderBrush="Gray"
-                                Padding="5"/>
-                    </StackPanel>
+                          <TextBox x:Name="WordInput"
+                                  Width="400" Height="30"
+                                  Margin="0,0,0,30"
+                                  Background="#3E3E42"
+                                  Foreground="White"
+                                  BorderThickness="1"
+                                  BorderBrush="Gray"
+                                  Padding="5"/>
+                      </StackPanel>
 
-                    <StackPanel x:Name="Task9InputPanel" Visibility="Collapsed" Margin="0,0,0,20">
-                      <!-- Панель ввода новых событий -->
-                      <GroupBox Header="Добавление нового события" Margin="5" Foreground="White">
-                        <StackPanel>
-                          <TextBlock Text="День:" Foreground="White" Margin="0,5"/>
-                          <TextBox x:Name="Task9DayInput" Width="200" Height="30"/>
+                      <StackPanel x:Name="Task9InputPanel" Visibility="Collapsed" Margin="0,0,0,20">
+                        <!-- Панель ввода новых событий -->
+                        <GroupBox Header="Добавление нового события" Margin="5" Foreground="White">
+                          <StackPanel>
+                            <TextBlock Text="День:" Foreground="White" Margin="0,5"/>
+                            <TextBox x:Name="Task9DayInput" Width="200" Height="30"/>
 
-                          <TextBlock Text="Месяц:" Foreground="White" Margin="0,5"/>
-                          <TextBox x:Name="Task9MonthInput" Width="200" Height="30"/>
+                            <TextBlock Text="Месяц:" Foreground="White" Margin="0,5"/>
+                            <TextBox x:Name="Task9MonthInput" Width="200" Height="30"/>
 
-                          <TextBlock Text="Год:" Foreground="White" Margin="0,5"/>
-                          <TextBox x:Name="Task9YearInput" Width="200" Height="30"/>
+                            <TextBlock Text="Год:" Foreground="White" Margin="0,5"/>
+                            <TextBox x:Name="Task9YearInput" Width="200" Height="30"/>
 
-                          <TextBlock Text="Название события:" Foreground="White" Margin="0,5"/>
-                          <TextBox x:Name="Task9EventInput" Width="200" Height="30"/>
+                            <TextBlock Text="Название события:" Foreground="White" Margin="0,5"/>
+                            <TextBox x:Name="Task9EventInput" Width="200" Height="30"/>
 
-                          <Button Content="Добавить событие"
-                                  Width="150" Height="30"
-                                  Margin="0,10"
-                                  Click="AddEvent_Click"/>
-                        </StackPanel>
-                      </GroupBox>
+                            <Button Content="Добавить событие"
+                                    Width="150" Height="30"
+                                    Margin="0,10"
+                                    Click="AddEvent_Click"/>
+                          </StackPanel>
+                        </GroupBox>
 
-                      <!-- Список всех событий -->
-                      <GroupBox Header="Список событий" Margin="5" Foreground="White">
-                        <StackPanel>
-                          <ListBox x:Name="EventsList"
+                        <!-- Список всех событий -->
+                        <GroupBox Header="Список событий" Margin="5" Foreground="White">
+                          <StackPanel>
+                            <ListBox x:Name="EventsList"
                                    Height="200"
                                    SelectionMode="Multiple"
                                    Background="#3E3E42"
                                    Foreground="White"/>
-                          <Button Content="Удалить выбранные события"
-                                  Width="200" Height="30"
-                                  Margin="5"
-                                  Click="DeleteEvents_Click"/>
-                        </StackPanel>
-                      </GroupBox>
+                            <Button Content="Удалить выбранные события"
+                                    Width="200" Height="30"
+                                    Margin="5"
+                                    Click="DeleteEvents_Click"/>
+                          </StackPanel>
+                        </GroupBox>
 
-                      <!-- Кнопка сравнения выбранных событий -->
-                      <Button Content="Сравнить выбранные события"
-                              Width="200" Height="30"
-                              Margin="5"
-                              Click="CompareEvents_Click"/>
+                        <!-- Кнопка сравнения выбранных событий -->
+                        <Button Content="Сравнить выбранные события"
+                                Width="200" Height="30"
+                                Margin="5"
+                                Click="CompareEvents_Click"/>
+                      </StackPanel>
+
+                      <!-- Кнопка получения решения -->
+                      <Button x:Name="GetSolutionButton"
+                              Content="Получить решение"
+                              Width="150" Height="40"
+                              Background="#3E3E42"
+                              Foreground="White"
+                              BorderThickness="0"
+                              Click="GetSolutionButton_Click"
+                              Visibility="Collapsed"/>
+
+                      <!-- Scrollable result area -->
+                      <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                                   MaxHeight="400">
+                          <TextBlock x:Name="ResultTextBlock"
+                                    Foreground="White"
+                                    Margin="20"
+                                    TextWrapping="Wrap"
+                                    TextAlignment="Left"
+                                    Padding="20,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    Visibility="Collapsed"/>
+                      </ScrollViewer>
+                  </StackPanel>
+                      
+                      <StackPanel x:Name="Task4MachPanel" 
+                                  Visibility="Collapsed" 
+                                  HorizontalAlignment="Center" 
+                                  VerticalAlignment="Top"
+                                  Margin="0,50,0,0">
+                              <TextBlock Text="Введите число для проверки:" 
+                                         Foreground="White" 
+                                         Margin="0,0,0,10"/>
+                              <TextBox x:Name="PrimalityTestInput"
+                                       Width="200" 
+                                       Height="30"
+                                       Background="#3E3E42"
+                                       Foreground="White"
+                                       BorderThickness="1"
+                                       BorderBrush="Gray"
+                                       Margin="0,0,0,20"/>
+                              <Button Content="Проверить"
+                                      Width="150" 
+                                      Height="35"
+                                      Background="#3E3E42"
+                                      Foreground="White"
+                                      BorderThickness="0"
+                                      Click="RunPrimalityTest_Click"
+                                      Margin="0,0,0,30"/>
+                      </StackPanel>
+                      
+                      <Grid x:Name="Task1MachPanel" 
+                      Visibility="Collapsed" 
+                      Margin="0,50,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Input Panel -->
+                    <StackPanel Grid.Column="0" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                Margin="20,0,40,0">
+                        <!-- Existing input fields -->
+                        <TextBlock Text="Введите первое множество (через запятую):" 
+                                   Foreground="White" 
+                                   Margin="0,0,0,10"/>
+                        <TextBox x:Name="Set1Input"
+                                 Width="300" 
+                                 Height="30"
+                                 Background="#3E3E42"
+                                 Foreground="White"
+                                 BorderThickness="1"
+                                 BorderBrush="Gray"
+                                 Margin="0,0,0,20"/>
+                        
+                        <TextBlock Text="Введите второе множество (через запятую):" 
+                                   Foreground="White" 
+                                   Margin="0,0,0,10"/>
+                        <TextBox x:Name="Set2Input"
+                                 Width="300" 
+                                 Height="30"
+                                 Background="#3E3E42"
+                                 Foreground="White"
+                                 BorderThickness="1"
+                                 BorderBrush="Gray"
+                                 Margin="0,0,0,20"/>
+                        
+                        <TextBlock Text="Введите универсальное множество (через запятую):" 
+                                   Foreground="White" 
+                                   Margin="0,0,0,10"/>
+                        <TextBox x:Name="UniversalSetInput"
+                                 Width="300" 
+                                 Height="30"
+                                 Background="#3E3E42"
+                                 Foreground="White"
+                                 BorderThickness="1"
+                                 BorderBrush="Gray"
+                                 Margin="0,0,0,20"/>
+                        <TextBlock Text="Введите первое бинарное отношение (матрица через пробел):" 
+                                   Foreground="White" 
+                                   Margin="0,20,0,10"/>
+                        <TextBox x:Name="Relation1Input"
+                                 Width="300" 
+                                 Height="60"
+                                 Background="#3E3E42"
+                                 Foreground="White"
+                                 BorderThickness="1"
+                                 BorderBrush="Gray"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 Margin="0,0,0,20"/>
+
+                        <TextBlock Text="Введите второе бинарное отношение (матрица через пробел):" 
+                                   Foreground="White" 
+                                   Margin="0,0,0,10"/>
+                        <TextBox x:Name="Relation2Input"
+                                 Width="300" 
+                                 Height="60"
+                                 Background="#3E3E42"
+                                 Foreground="White"
+                                 BorderThickness="1"
+                                 BorderBrush="Gray"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 Margin="0,0,0,20"/>
+                        
+                        <Button Content="Вычислить"
+                                Width="150" 
+                                Height="35"
+                                Background="#3E3E42"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Click="RunSetOperations_Click"
+                                Margin="0,0,0,30"/>
                     </StackPanel>
 
-                    <!-- Кнопка получения решения -->
-                    <Button x:Name="GetSolutionButton"
-                            Content="Получить решение"
-                            Width="150" Height="40"
-                            Background="#3E3E42"
-                            Foreground="White"
-                            BorderThickness="0"
-                            Click="GetSolutionButton_Click"
-                            Visibility="Collapsed"/>
-
-                    <!-- Блок для вывода результата -->
-                    <TextBlock x:Name="ResultTextBlock"
-                               Foreground="White"
-                               Margin="20"
-                               TextWrapping="Wrap"
-                               TextAlignment="Left"
-                               Padding="20,0,0,0"
-                               HorizontalAlignment="Center"
-                               Visibility="Collapsed"/>
-                </StackPanel>
-
-                <!-- Кнопка возврата -->
-                <Button x:Name="ReturnButton"
-                        Content="Вернуться"
-                        Width="100" Height="35"
-                        Background="#3E3E42"
-                        Foreground="White"
-                        BorderThickness="0"
-                        VerticalAlignment="Bottom"
-                        HorizontalAlignment="Right"
-                        Margin="0,0,20,20"
-                        Click="ReturnButton_Click"
-                        Visibility="Collapsed"/>
-            </Grid>
+                            <!-- Results Panel -->
+                            <ScrollViewer Grid.Column="1" 
+                                          VerticalScrollBarVisibility="Auto"
+                                          Margin="0,0,20,0">
+                                <TextBlock x:Name="Task1ResultBlock"
+                                           Foreground="White"
+                                           TextWrapping="Wrap"
+                                           Padding="20"/>
+                            </ScrollViewer>
+                        </Grid>
+                  <!-- Кнопка возврата -->
+                  <Button x:Name="ReturnButton"
+                          Content="Вернуться"
+                          Width="100" Height="35"
+                          Background="#3E3E42"
+                          Foreground="White"
+                          BorderThickness="0"
+                          VerticalAlignment="Bottom"
+                          HorizontalAlignment="Right"
+                          Margin="0,0,20,20"
+                          Click="ReturnButton_Click"
+                          Visibility="Collapsed"/>
+              </Grid>
         </Grid>
         </Grid>
 </Window>
+

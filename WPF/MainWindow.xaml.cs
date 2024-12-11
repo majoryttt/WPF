@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using WPF.TaskForMach;
 using WPF.Tasks;
 
 namespace WPF;
@@ -188,18 +189,79 @@ public partial class MainWindow : Window
         Sidebar.Triggers.Add(enterTrigger);
         Sidebar.Triggers.Add(leaveTrigger);
     }
-    private void ReturnButton_Click(object sender, RoutedEventArgs e)
+    
+    private void RunPrimalityTest_Click(object sender, RoutedEventArgs e)
     {
-      GetSolutionButton.Visibility = Visibility.Collapsed;
-      ResultTextBlock.Visibility = Visibility.Collapsed;
-      ReturnButton.Visibility = Visibility.Collapsed;
-      InputPanel.Visibility = Visibility.Collapsed;
-      Task8InputPanel.Visibility = Visibility.Collapsed;
-      Task9InputPanel.Visibility = Visibility.Collapsed;  // Add this line
+        if (long.TryParse(PrimalityTestInput.Text, out long number))
+        {
+            ResultTextBlock.Text = Task4MachSolution.GetSolution(number);
+            ResultTextBlock.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            ResultTextBlock.Text = "Пожалуйста, введите корректное число";
+            ResultTextBlock.Visibility = Visibility.Visible;
+        }
     }
     
-    private int currentTask = 0;
+    private void RunSetOperations_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            bool[,] relation1 = ParseRelationMatrix(Relation1Input.Text);
+            bool[,] relation2 = ParseRelationMatrix(Relation2Input.Text);
 
+            Task1ResultBlock.Text = Task1MachSolution.GetSolution(
+                Set1Input.Text,
+                Set2Input.Text,
+                UniversalSetInput.Text,
+                relation1,
+                relation2
+            );
+        }
+        catch (Exception ex)
+        {
+            Task1ResultBlock.Text = $"Ошибка: {ex.Message}";
+        }
+    }
+
+    private bool[,] ParseRelationMatrix(string input)
+    {
+        var lines = input.Split('\n');
+        int n = lines.Length;
+        var matrix = new bool[n, n];
+
+        for (int i = 0; i < n; i++)
+        {
+            var values = lines[i].Trim().Split(' ');
+            for (int j = 0; j < n; j++)
+            {
+                matrix[i, j] = values[j] == "1";
+            }
+        }
+        return matrix;
+    }
+    
+    private void ReturnButton_Click(object sender, RoutedEventArgs e)
+    {
+        GetSolutionButton.Visibility = Visibility.Collapsed;
+        ResultTextBlock.Visibility = Visibility.Collapsed;
+        ReturnButton.Visibility = Visibility.Collapsed;
+        InputPanel.Visibility = Visibility.Collapsed;
+        Task8InputPanel.Visibility = Visibility.Collapsed;
+        Task9InputPanel.Visibility = Visibility.Collapsed;
+        Task4MachPanel.Visibility = Visibility.Collapsed;
+        Task1MachPanel.Visibility = Visibility.Collapsed;
+        Set1Input.Clear();
+        Set2Input.Clear();
+        UniversalSetInput.Clear();
+        ResultTextBlock.Text = string.Empty;
+        Relation1Input.Clear();
+        Relation2Input.Clear();
+    }
+
+    
+    private int currentTask = 0;
     private void GetSolutionButton_Click(object sender, RoutedEventArgs e)
     {
       ResultTextBlock.Text = currentTask switch
@@ -217,6 +279,7 @@ public partial class MainWindow : Window
           int.Parse(Task9YearInput.Text),
           Task9EventInput.Text),
         10 => Task10Solution.GetSolution(),
+        15 => Task5MachSolution.GetSolution(), // Add this line
         _ => string.Empty
       };
 
@@ -297,15 +360,27 @@ public partial class MainWindow : Window
         ResultTextBlock.Visibility = Visibility.Collapsed;
         ReturnButton.Visibility = Visibility.Visible;
     }
-
-    private void Task10_Click(object sender, RoutedEventArgs e)
+    
+    private void Task1MachSolution_Click(object sender, RoutedEventArgs e)
     {
-        currentTask = 10;
-        GetSolutionButton.Visibility = Visibility.Visible;
+        Task1MachPanel.Visibility = Visibility.Visible;
         ResultTextBlock.Visibility = Visibility.Collapsed;
         ReturnButton.Visibility = Visibility.Visible;
     }
-
+    
+    private void Task3MachSolution_Click(object sender, RoutedEventArgs e)
+    {
+        ResultTextBlock.Text = Task3MachSolution.GetSolution();
+        ResultTextBlock.Visibility = Visibility.Visible;
+        ReturnButton.Visibility = Visibility.Visible;
+    }
+    private void Task4MachSolution_Click(object sender, RoutedEventArgs e)
+    {
+        Task4MachPanel.Visibility = Visibility.Visible;
+        ResultTextBlock.Visibility = Visibility.Collapsed;
+        ReturnButton.Visibility = Visibility.Visible;
+    }
+    
     private void Task5MachSolution_Click(object sender, RoutedEventArgs e)
     {
       currentTask = 15;
