@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace WPF.Tasks
@@ -11,7 +9,8 @@ namespace WPF.Tasks
     public static class Task9Solution
     {
         // Коллекция для хранения исторических событий
-        private static ObservableCollection<HistoricalEvent> events = new ObservableCollection<HistoricalEvent>();
+        // ObservableCollection - это коллекция, которая реализует интерфейс INotifyPropertyChanged
+        private static ObservableCollection<HistoricalEvent> events = [];
 
         // Метод для добавления нового события и возврата результата операции
         public static string GetSolution(int day, int month, int year, string eventName)
@@ -28,28 +27,6 @@ namespace WPF.Tasks
             }
         }
 
-        // Метод для сравнения выбранных событий
-        public static string CompareEvents(List<HistoricalEvent> selectedEvents)
-        {
-            if (selectedEvents.Count < 2)
-                return "Выберите минимум два события для сравнения";
-
-            var result = new System.Text.StringBuilder();
-            var latestEvent = HistoricalEvent.FindLatestEvent(new ObservableCollection<HistoricalEvent>(selectedEvents));
-            result.AppendLine($"Самое позднее событие: {latestEvent}");
-
-            // Сравнение всех событий попарно
-            for (int i = 0; i < selectedEvents.Count; i++)
-            {
-                for (int j = i + 1; j < selectedEvents.Count; j++)
-                {
-                    var days = selectedEvents[i] - selectedEvents[j];
-                    result.AppendLine($"Между событиями '{selectedEvents[i].EventName}' и '{selectedEvents[j].EventName}': {days} дней");
-                }
-            }
-
-            return result.ToString();
-        }
         // Метод для сохранения событий в файл
         public static void SaveEventsToFile(List<HistoricalEvent> events, string filePath)
         {
@@ -82,6 +59,7 @@ namespace WPF.Tasks
     }
 
     // Класс для представления исторического события
+    // INotifyPropertyChanged - это интерфейс, который позволяет объектам уведомлять систему об изменениях своих свойств
     public class HistoricalEvent : INotifyPropertyChanged, IComparable<HistoricalEvent>, IComparer<HistoricalEvent>
     {
         // Приватные поля для хранения данных события
@@ -91,9 +69,10 @@ namespace WPF.Tasks
         private string eventName;
 
         // Реализация интерфейса INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged; // ? - это оператор null-объединения
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) // Метод для уведомления об изменении свойства
+        // Метод для уведомления об изменении свойства
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null) // Метод для уведомления об изменении свойства
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -195,7 +174,8 @@ namespace WPF.Tasks
         }
 
         // Реализация IComparable для сравнения по умолчанию по дате
-        public int CompareTo(HistoricalEvent other)
+        // Разница между IComparable и IComparer в том, что IComparable позволяет сравнивать объекты одного типа, а IComparer позволяет сравнивать объекты разных типов.
+        public int CompareTo(HistoricalEvent? other)
         {
             if (other == null) return 1;
             DateTime thisDate = new DateTime(year, month, day);
@@ -204,7 +184,7 @@ namespace WPF.Tasks
         }
 
         // Реализация IComparer для сравнения по имени события
-        public int Compare(HistoricalEvent x, HistoricalEvent y)
+        public int Compare(HistoricalEvent? x, HistoricalEvent? y)
         {
             if (x == null && y == null) return 0;
             if (x == null) return -1;

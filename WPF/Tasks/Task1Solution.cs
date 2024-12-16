@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace WPF
+namespace WPF.Tasks
 {
   public static class Task1Solution
   {

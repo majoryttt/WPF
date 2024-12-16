@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
-namespace WPF
+namespace WPF.Tasks
 {
     public class ArrayHandler
     {

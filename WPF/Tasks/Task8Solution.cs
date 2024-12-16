@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
-namespace WPF
+namespace WPF.Tasks
 {
   public static class Task8Solution
   {
