@@ -189,7 +189,7 @@ public partial class MainWindow : Window
         Sidebar.Triggers.Add(enterTrigger);
         Sidebar.Triggers.Add(leaveTrigger);
     }
-    
+
     private void RunPrimalityTest_Click(object sender, RoutedEventArgs e)
     {
         if (long.TryParse(PrimalityTestInput.Text, out long number))
@@ -203,7 +203,7 @@ public partial class MainWindow : Window
             ResultTextBlock.Visibility = Visibility.Visible;
         }
     }
-    
+
     private void RunSetOperations_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -241,7 +241,58 @@ public partial class MainWindow : Window
         }
         return matrix;
     }
-    
+
+    private void LoadEventsFromFile_Click(object sender, RoutedEventArgs e)
+    {
+      var openFileDialog = new Microsoft.Win32.OpenFileDialog
+      {
+        Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+      };
+
+      if (openFileDialog.ShowDialog() == true)
+      {
+        try
+        {
+          var events = Task9Solution.LoadEventsFromFile(openFileDialog.FileName);
+          EventsList.Items.Clear();
+          foreach (var historicalEvent in events)
+          {
+            EventsList.Items.Add(historicalEvent);
+          }
+          ResultTextBlock.Text = "События успешно загружены из файла";
+        }
+        catch (Exception ex)
+        {
+          ResultTextBlock.Text = $"Ошибка при загрузке файла: {ex.Message}";
+        }
+        ResultTextBlock.Visibility = Visibility.Visible;
+      }
+    }
+
+    private void SaveEventsToFile_Click(object sender, RoutedEventArgs e)
+    {
+      var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+      {
+        Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+      };
+
+      if (saveFileDialog.ShowDialog() == true)
+      {
+        try
+        {
+          var events = EventsList.Items.Cast<HistoricalEvent>().ToList();
+          Task9Solution.SaveEventsToFile(events, saveFileDialog.FileName);
+          ResultTextBlock.Text = "События успешно сохранены в файл";
+        }
+        catch (Exception ex)
+        {
+          ResultTextBlock.Text = $"Ошибка при сохранении файла: {ex.Message}";
+        }
+        ResultTextBlock.Visibility = Visibility.Visible;
+      }
+    }
+
+
     private void ReturnButton_Click(object sender, RoutedEventArgs e)
     {
         GetSolutionButton.Visibility = Visibility.Collapsed;
@@ -260,7 +311,7 @@ public partial class MainWindow : Window
         Relation2Input.Clear();
     }
 
-    
+
     private int currentTask = 0;
     private void GetSolutionButton_Click(object sender, RoutedEventArgs e)
     {
@@ -352,7 +403,7 @@ public partial class MainWindow : Window
       ResultTextBlock.Visibility = Visibility.Collapsed;
       ReturnButton.Visibility = Visibility.Visible;
     }
-    
+
     private void Task10_Click(object sender, RoutedEventArgs e)
     {
         currentTask = 10;
@@ -360,27 +411,27 @@ public partial class MainWindow : Window
         ResultTextBlock.Visibility = Visibility.Collapsed;
         ReturnButton.Visibility = Visibility.Visible;
     }
-    
+
     private void Task1MachSolution_Click(object sender, RoutedEventArgs e)
     {
         Task1MachPanel.Visibility = Visibility.Visible;
         ResultTextBlock.Visibility = Visibility.Collapsed;
         ReturnButton.Visibility = Visibility.Visible;
     }
-    
-    private void Task3MachSolution_Click(object sender, RoutedEventArgs e)
-    {
-        ResultTextBlock.Text = Task3MachSolution.GetSolution();
-        ResultTextBlock.Visibility = Visibility.Visible;
-        ReturnButton.Visibility = Visibility.Visible;
-    }
+
+    // private void Task3MachSolution_Click(object sender, RoutedEventArgs e)
+    // {
+    //     ResultTextBlock.Text = Task3MachSolution.GetSolution();
+    //     ResultTextBlock.Visibility = Visibility.Visible;
+    //     ReturnButton.Visibility = Visibility.Visible;
+    // }
     private void Task4MachSolution_Click(object sender, RoutedEventArgs e)
     {
         Task4MachPanel.Visibility = Visibility.Visible;
         ResultTextBlock.Visibility = Visibility.Collapsed;
         ReturnButton.Visibility = Visibility.Visible;
     }
-    
+
     private void Task5MachSolution_Click(object sender, RoutedEventArgs e)
     {
       currentTask = 15;
@@ -390,3 +441,4 @@ public partial class MainWindow : Window
     }
 
 }
+

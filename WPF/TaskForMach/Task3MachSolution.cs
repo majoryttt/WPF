@@ -26,7 +26,7 @@
 //                 {
 //                     bool fx = ((x ^ true) && (y ^ true) && !z) || (y && z);
 //                     sb.AppendLine($" {Convert.ToInt32(x)} | {Convert.ToInt32(y)} | {Convert.ToInt32(z)} | {Convert.ToInt32(fx)}");
-//                     
+//
 //                     if (fx)
 //                     {
 //                         minterms.Add($"{Convert.ToInt32(x)}{Convert.ToInt32(y)}{Convert.ToInt32(z)}");

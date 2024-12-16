@@ -35,7 +35,7 @@
                 <Path Data="M0,0 L8,8 M0,8 L8,0" Stroke="White" StrokeThickness="1" />
             </Button>
         </StackPanel>
-        
+
         <Grid>
             <!-- Основной боковой сайдбар -->
             <Grid x:Name="SidebarGrid" HorizontalAlignment="Left">
@@ -102,7 +102,7 @@
                             Foreground="White"
                             BorderThickness="0"
                             Click="CloseSecondarySidebar_Click"/>
-                    
+
                     <Button Content="Задание 1"
                             Height="35"
                             Margin="8,5"
@@ -110,15 +110,15 @@
                             Foreground="White"
                             BorderThickness="0"
                             Click="Task1MachSolution_Click"/>
-                    
-                    <Button Content="Задание 3"
-                            Height="35"
-                            Margin="8,5"
-                            Background="#3E3E42"
-                            Foreground="White"
-                            BorderThickness="0"
-                            Click="Task3MachSolution_Click"/>
-                    
+
+                    <!-- <Button Content="Задание 3" -->
+                    <!--         Height="35" -->
+                    <!--         Margin="8,5" -->
+                    <!--         Background="#3E3E42" -->
+                    <!--         Foreground="White" -->
+                    <!--         BorderThickness="0" -->
+                    <!--         Click="Task3MachSolution_Click"/> -->
+
                     <Button Content="Задание 4"
                             Height="35"
                             Margin="8,5"
@@ -295,6 +295,17 @@
                                 Width="200" Height="30"
                                 Margin="5"
                                 Click="CompareEvents_Click"/>
+                        <!-- Add inside Task9InputPanel StackPanel, after existing buttons -->
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                          <Button Content="Загрузить из файла"
+                                  Width="150" Height="30"
+                                  Margin="5"
+                                  Click="LoadEventsFromFile_Click"/>
+                          <Button Content="Сохранить в файл"
+                                  Width="150" Height="30"
+                                  Margin="5"
+                                  Click="SaveEventsToFile_Click"/>
+                        </StackPanel>
                       </StackPanel>
 
                       <!-- Кнопка получения решения -->
@@ -308,7 +319,7 @@
                               Visibility="Collapsed"/>
 
                       <!-- Scrollable result area -->
-                      <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      <ScrollViewer VerticalScrollBarVisibility="Auto"
                                    MaxHeight="400">
                           <TextBlock x:Name="ResultTextBlock"
                                     Foreground="White"
@@ -320,17 +331,17 @@
                                     Visibility="Collapsed"/>
                       </ScrollViewer>
                   </StackPanel>
-                      
-                      <StackPanel x:Name="Task4MachPanel" 
-                                  Visibility="Collapsed" 
-                                  HorizontalAlignment="Center" 
+
+                      <StackPanel x:Name="Task4MachPanel"
+                                  Visibility="Collapsed"
+                                  HorizontalAlignment="Center"
                                   VerticalAlignment="Top"
                                   Margin="0,50,0,0">
-                              <TextBlock Text="Введите число для проверки:" 
-                                         Foreground="White" 
+                              <TextBlock Text="Введите число для проверки:"
+                                         Foreground="White"
                                          Margin="0,0,0,10"/>
                               <TextBox x:Name="PrimalityTestInput"
-                                       Width="200" 
+                                       Width="200"
                                        Height="30"
                                        Background="#3E3E42"
                                        Foreground="White"
@@ -338,7 +349,7 @@
                                        BorderBrush="Gray"
                                        Margin="0,0,0,20"/>
                               <Button Content="Проверить"
-                                      Width="150" 
+                                      Width="150"
                                       Height="35"
                                       Background="#3E3E42"
                                       Foreground="White"
@@ -346,9 +357,9 @@
                                       Click="RunPrimalityTest_Click"
                                       Margin="0,0,0,30"/>
                       </StackPanel>
-                      
-                      <Grid x:Name="Task1MachPanel" 
-                      Visibility="Collapsed" 
+
+                      <Grid x:Name="Task1MachPanel"
+                      Visibility="Collapsed"
                       Margin="0,50,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -356,51 +367,51 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Input Panel -->
-                    <StackPanel Grid.Column="0" 
-                                HorizontalAlignment="Left" 
+                    <StackPanel Grid.Column="0"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Margin="20,0,40,0">
                         <!-- Existing input fields -->
-                        <TextBlock Text="Введите первое множество (через запятую):" 
-                                   Foreground="White" 
+                        <TextBlock Text="Введите первое множество (через запятую):"
+                                   Foreground="White"
                                    Margin="0,0,0,10"/>
                         <TextBox x:Name="Set1Input"
-                                 Width="300" 
+                                 Width="300"
                                  Height="30"
                                  Background="#3E3E42"
                                  Foreground="White"
                                  BorderThickness="1"
                                  BorderBrush="Gray"
                                  Margin="0,0,0,20"/>
-                        
-                        <TextBlock Text="Введите второе множество (через запятую):" 
-                                   Foreground="White" 
+
+                        <TextBlock Text="Введите второе множество (через запятую):"
+                                   Foreground="White"
                                    Margin="0,0,0,10"/>
                         <TextBox x:Name="Set2Input"
-                                 Width="300" 
+                                 Width="300"
                                  Height="30"
                                  Background="#3E3E42"
                                  Foreground="White"
                                  BorderThickness="1"
                                  BorderBrush="Gray"
                                  Margin="0,0,0,20"/>
-                        
-                        <TextBlock Text="Введите универсальное множество (через запятую):" 
-                                   Foreground="White" 
+
+                        <TextBlock Text="Введите универсальное множество (через запятую):"
+                                   Foreground="White"
                                    Margin="0,0,0,10"/>
                         <TextBox x:Name="UniversalSetInput"
-                                 Width="300" 
+                                 Width="300"
                                  Height="30"
                                  Background="#3E3E42"
                                  Foreground="White"
                                  BorderThickness="1"
                                  BorderBrush="Gray"
                                  Margin="0,0,0,20"/>
-                        <TextBlock Text="Введите первое бинарное отношение (матрица через пробел):" 
-                                   Foreground="White" 
+                        <TextBlock Text="Введите первое бинарное отношение (матрица через пробел):"
+                                   Foreground="White"
                                    Margin="0,20,0,10"/>
                         <TextBox x:Name="Relation1Input"
-                                 Width="300" 
+                                 Width="300"
                                  Height="60"
                                  Background="#3E3E42"
                                  Foreground="White"
@@ -410,11 +421,11 @@
                                  AcceptsReturn="True"
                                  Margin="0,0,0,20"/>
 
-                        <TextBlock Text="Введите второе бинарное отношение (матрица через пробел):" 
-                                   Foreground="White" 
+                        <TextBlock Text="Введите второе бинарное отношение (матрица через пробел):"
+                                   Foreground="White"
                                    Margin="0,0,0,10"/>
                         <TextBox x:Name="Relation2Input"
-                                 Width="300" 
+                                 Width="300"
                                  Height="60"
                                  Background="#3E3E42"
                                  Foreground="White"
@@ -423,9 +434,9 @@
                                  TextWrapping="Wrap"
                                  AcceptsReturn="True"
                                  Margin="0,0,0,20"/>
-                        
+
                         <Button Content="Вычислить"
-                                Width="150" 
+                                Width="150"
                                 Height="35"
                                 Background="#3E3E42"
                                 Foreground="White"
@@ -435,7 +446,7 @@
                     </StackPanel>
 
                             <!-- Results Panel -->
-                            <ScrollViewer Grid.Column="1" 
+                            <ScrollViewer Grid.Column="1"
                                           VerticalScrollBarVisibility="Auto"
                                           Margin="0,0,20,0">
                                 <TextBlock x:Name="Task1ResultBlock"

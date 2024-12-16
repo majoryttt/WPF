@@ -15,7 +15,9 @@ namespace WPF.TaskForMach
       for (int n = 0; n <= 9; n++)
       {
         result.AppendLine($"n = {n}:");
+        // Число Белла — число всех неупорядоченных разбиений n-элементного множества
         result.AppendLine($"Bell number: {BellNumber(n)}");
+        // числом Стирлинга второго рода количество неупорядоченных разбиений n-элементного множества на k непустых подмножеств
         result.AppendLine("Stirling numbers of the 2nd kind:");
         for (int k = 0; k <= n; k++)
         {

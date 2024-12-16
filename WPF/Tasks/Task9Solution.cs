@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -49,10 +50,39 @@ namespace WPF.Tasks
 
             return result.ToString();
         }
+        // Метод для сохранения событий в файл
+        public static void SaveEventsToFile(List<HistoricalEvent> events, string filePath)
+        {
+          var lines = events.Select(e => $"{e.Day},{e.Month},{e.Year},{e.EventName}");
+          File.WriteAllLines(filePath, lines);
+        }
+
+        // Метод для загрузки событий из файла
+        public static List<HistoricalEvent> LoadEventsFromFile(string filePath)
+        {
+          var events = new List<HistoricalEvent>();
+          var lines = File.ReadAllLines(filePath);
+
+          foreach (var line in lines)
+          {
+            var parts = line.Split(',');
+            if (parts.Length == 4)
+            {
+              events.Add(new HistoricalEvent(
+                int.Parse(parts[0]),
+                int.Parse(parts[1]),
+                int.Parse(parts[2]),
+                parts[3]
+              ));
+            }
+          }
+
+          return events;
+        }
     }
 
     // Класс для представления исторического события
-    public class HistoricalEvent : INotifyPropertyChanged
+    public class HistoricalEvent : INotifyPropertyChanged, IComparable<HistoricalEvent>, IComparer<HistoricalEvent>
     {
         // Приватные поля для хранения данных события
         private int day;
@@ -63,7 +93,7 @@ namespace WPF.Tasks
         // Реализация интерфейса INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) // Метод для уведомления об изменении свойства
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -140,7 +170,13 @@ namespace WPF.Tasks
             if (events == null || events.Count == 0)
                 throw new ArgumentException("Коллекция событий пуста");
 
-            return events.OrderByDescending(e => new DateTime(e.year, e.month, e.day)).First();
+            var latestEvent = events[0];
+            for (int i = 1; i < events.Count; i++)
+            {
+                if (events[i] > latestEvent)
+                    latestEvent = events[i];
+            }
+            return latestEvent;
         }
 
         // Метод проверки корректности даты
@@ -157,5 +193,39 @@ namespace WPF.Tasks
         {
             return $"{eventName} ({day}/{month}/{year})";
         }
+
+        // Реализация IComparable для сравнения по умолчанию по дате
+        public int CompareTo(HistoricalEvent other)
+        {
+            if (other == null) return 1;
+            DateTime thisDate = new DateTime(year, month, day);
+            DateTime otherDate = new DateTime(other.year, other.month, other.day);
+            return thisDate.CompareTo(otherDate);
+        }
+
+        // Реализация IComparer для сравнения по имени события
+        public int Compare(HistoricalEvent x, HistoricalEvent y)
+        {
+            if (x == null && y == null) return 0;
+            if (x == null) return -1;
+            if (y == null) return 1;
+            return string.Compare(x.EventName, y.EventName, StringComparison.OrdinalIgnoreCase);
+        }
+
+        // Перегрузка операторов для сравнения
+        public static bool operator >(HistoricalEvent left, HistoricalEvent right)
+        {
+            if (left == null || right == null)
+                throw new ArgumentNullException();
+            return left.CompareTo(right) > 0;
+        }
+
+        public static bool operator <(HistoricalEvent left, HistoricalEvent right)
+        {
+            if (left == null || right == null)
+                throw new ArgumentNullException();
+            return left.CompareTo(right) < 0;
+        }
     }
 }
+
