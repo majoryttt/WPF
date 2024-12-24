@@ -419,6 +419,13 @@ public partial class MainWindow : Window
         ReturnButton.Visibility = Visibility.Visible;
     }
 
+    private void Task2MachSolution_Click(object sender, RoutedEventArgs e)
+    {
+      ResultTextBlock.Text = new Task2MachSolution().Solve();
+      ResultTextBlock.Visibility = Visibility.Visible;
+      ReturnButton.Visibility = Visibility.Visible;
+    }
+
     // private void Task3MachSolution_Click(object sender, RoutedEventArgs e)
     // {
     //     ResultTextBlock.Text = Task3MachSolution.GetSolution();

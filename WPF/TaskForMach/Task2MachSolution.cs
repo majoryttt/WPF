@@ -1,195 +1,217 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Text;
-//
-// namespace WPF.TaskForMach;
-//
-// public class Task2MachSolution
-// {
-//     public class Athlete
-//     {
-//         public string Name { get; set; }
-//         public string Sport { get; set; }
-//         public string Country { get; set; }
-//         public int BirthYear { get; set; }
-//         public string Position { get; set; }
-//
-//         public override string ToString()
-//         {
-//             return $"{Name} ({Sport}, {Country}, {BirthYear}, {Position})";
-//         }
-//     }
-//
-//     private static List<Athlete> athletes = new List<Athlete>
-//     {
-//         new Athlete { Name = "John Smith", Sport = "Basketball", Country = "USA", BirthYear = 1995, Position = "Forward" },
-//         new Athlete { Name = "Ivan Petrov", Sport = "Basketball", Country = "Russia", BirthYear = 1995, Position = "Guard" },
-//         new Athlete { Name = "Luis Garcia", Sport = "Football", Country = "Spain", BirthYear = 1998, Position = "Forward" },
-//         new Athlete { Name = "Mario Rossi", Sport = "Volleyball", Country = "Italy", BirthYear = 1996, Position = "Setter" },
-//         new Athlete { Name = "Yuki Tanaka", Sport = "Basketball", Country = "Japan", BirthYear = 1995, Position = "Center" },
-//         new Athlete { Name = "Carlos Silva", Sport = "Football", Country = "Brazil", BirthYear = 1997, Position = "Midfielder" },
-//         new Athlete { Name = "Pierre Dubois", Sport = "Basketball", Country = "France", BirthYear = 1996, Position = "Guard" },
-//         new Athlete { Name = "Alex Johnson", Sport = "Volleyball", Country = "USA", BirthYear = 1995, Position = "Libero" },
-//         new Athlete { Name = "Hans Weber", Sport = "Football", Country = "Germany", BirthYear = 1998, Position = "Defender" },
-//         new Athlete { Name = "Marco Rossi", Sport = "Volleyball", Country = "Italy", BirthYear = 1997, Position = "Spiker" }
-//     };
-//
-//     private static bool[,] CreateRelationMatrix(Func<Athlete, Athlete, bool> relation)
-//     {
-//         int n = athletes.Count;
-//         bool[,] matrix = new bool[n, n];
-//
-//         for (int i = 0; i < n; i++)
-//         {
-//             for (int j = 0; j < n; j++)
-//             {
-//                 matrix[i, j] = relation(athletes[i], athletes[j]);
-//             }
-//         }
-//
-//         return matrix;
-//     }
-//
-//     private static bool IsReflexive(bool[,] matrix)
-//     {
-//         int n = matrix.GetLength(0);
-//         for (int i = 0; i < n; i++)
-//         {
-//             if (!matrix[i, i]) return false;
-//         }
-//         return true;
-//     }
-//
-//     private static bool IsIrreflexive(bool[,] matrix)
-//     {
-//         int n = matrix.GetLength(0);
-//         for (int i = 0; i < n; i++)
-//         {
-//             if (matrix[i, i]) return false;
-//         }
-//         return true;
-//     }
-//
-//     private static bool IsSymmetric(bool[,] matrix)
-//     {
-//         int n = matrix.GetLength(0);
-//         for (int i = 0; i < n; i++)
-//         {
-//             for (int j = 0; j < n; j++)
-//             {
-//                 if (matrix[i, j] != matrix[j, i]) return false;
-//             }
-//         }
-//         return true;
-//     }
-//
-//     private static bool IsAntisymmetric(bool[,] matrix)
-//     {
-//         int n = matrix.GetLength(0);
-//         for (int i = 0; i < n; i++)
-//         {
-//             for (int j = 0; j < n; j++)
-//             {
-//                 if (i != j && matrix[i, j] && matrix[j, i]) return false;
-//             }
-//         }
-//         return true;
-//     }
-//
-//     private static bool IsTransitive(bool[,] matrix)
-//     {
-//         int n = matrix.GetLength(0);
-//         for (int i = 0; i < n; i++)
-//         {
-//             for (int j = 0; j < n; j++)
-//             {
-//                 for (int k = 0; k < n; k++)
-//                 {
-//                     if (matrix[i, j] && matrix[j, k] && !matrix[i, k]) return false;
-//                 }
-//             }
-//         }
-//         return true;
-//     }
-//
-//     private static List<List<Athlete>> GetEquivalenceClasses(Func<Athlete, Athlete, bool> relation)
-//     {
-//         var classes = new List<List<Athlete>>();
-//         var processed = new HashSet<Athlete>();
-//
-//         foreach (var athlete in athletes)
-//         {
-//             if (processed.Contains(athlete)) continue;
-//
-//             var equivalenceClass = athletes.Where(a => relation(athlete, a)).ToList();
-//             classes.Add(equivalenceClass);
-//             processed.UnionWith(equivalenceClass);
-//         }
-//
-//         return classes;
-//     }
-//     public static string GetSolution(bool[,] inputMatrix)
-//     {
-//         var sb = new StringBuilder();
-//     
-//         // Analyze properties of the input binary relation
-//         sb.AppendLine("Свойства введенного бинарного отношения:");
-//         sb.AppendLine($"Рефлексивность: {IsReflexive(inputMatrix)}");
-//         sb.AppendLine($"Иррефлексивность: {IsIrreflexive(inputMatrix)}");
-//         sb.AppendLine($"Симметричность: {IsSymmetric(inputMatrix)}");
-//         sb.AppendLine($"Антисимметричность: {IsAntisymmetric(inputMatrix)}");
-//         sb.AppendLine($"Транзитивность: {IsTransitive(inputMatrix)}");
-//
-//         // Check if it's an equivalence or order relation
-//         bool isEquivalence = IsReflexive(inputMatrix) && IsSymmetric(inputMatrix) && IsTransitive(inputMatrix);
-//         bool isOrder = IsReflexive(inputMatrix) && IsAntisymmetric(inputMatrix) && IsTransitive(inputMatrix);
-//     
-//         sb.AppendLine($"\nЯвляется отношением эквивалентности: {isEquivalence}");
-//         sb.AppendLine($"Является отношением порядка: {isOrder}");
-//
-//         return sb.ToString();
-//     }
-//
-//
-// private static void AnalyzeRelation(StringBuilder sb, string relationName, bool[,] matrix, Func<Athlete, Athlete, bool> relation)
-// {
-//     sb.AppendLine($"Свойства отношения \"{relationName}\":");
-//     sb.AppendLine($"Рефлексивность: {IsReflexive(matrix)}");
-//     sb.AppendLine($"Иррефлексивность: {IsIrreflexive(matrix)}");
-//     sb.AppendLine($"Симметричность: {IsSymmetric(matrix)}");
-//     sb.AppendLine($"Антисимметричность: {IsAntisymmetric(matrix)}");
-//     sb.AppendLine($"Транзитивность: {IsTransitive(matrix)}");
-//
-//     bool isEquivalence = IsReflexive(matrix) && IsSymmetric(matrix) && IsTransitive(matrix);
-//     bool isOrder = IsReflexive(matrix) && IsAntisymmetric(matrix) && IsTransitive(matrix);
-//     
-//     sb.AppendLine($"\nЯвляется отношением эквивалентности: {isEquivalence}");
-//     sb.AppendLine($"Является отношением порядка: {isOrder}");
-//
-//     if (isEquivalence)
-//     {
-//         sb.AppendLine($"\nКлассы эквивалентности по {relationName}:");
-//         var classes = GetEquivalenceClasses(relation);
-//         foreach (var group in classes)
-//         {
-//             sb.AppendLine($"\nГруппа {GetGroupValue(group[0], relationName)}:");
-//             foreach (var athlete in group)
-//             {
-//                 sb.AppendLine($"- {athlete.Name}");
-//             }
-//         }
-//     }
-//
-//     sb.AppendLine();
-// }
-//
-// private static string GetGroupValue(Athlete athlete, string relation) => relation switch
-// {
-//     "Sport" => athlete.Sport,
-//     "Country" => athlete.Country,
-//     "BirthYear" => athlete.BirthYear.ToString(),
-//     _ => throw new ArgumentException("Invalid relation type")
-// };
-// }
-//
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+public class Task2MachSolution
+{
+    public string Solve()
+    {
+        StringBuilder result = new StringBuilder();
+
+        var relation = new List<Tuple<int, int>>()
+        {
+            Tuple.Create(0, 1),
+            Tuple.Create(1, 3),
+            Tuple.Create(2, 3),
+            Tuple.Create(4, 5),
+            Tuple.Create(5, 6)
+        };
+
+        var br = new BinaryRelation(relation);
+        result.AppendLine(br.GetRelationString());
+        result.AppendLine(br.GetRelationTypeString());
+
+        var movies = GetMoviesList();
+        var ec = new EquivalenceClasses(movies);
+        result.AppendLine(ec.GetEquivalenceClassesString());
+
+        return result.ToString();
+    }
+
+    private class BinaryRelation
+    {
+        private List<Tuple<int, int>> relation;
+        private HashSet<int> elements;
+
+        public BinaryRelation(List<Tuple<int, int>> relation)
+        {
+            this.relation = relation;
+            this.elements = new HashSet<int>();
+
+            foreach (var pair in relation)
+            {
+                elements.Add(pair.Item1);
+                elements.Add(pair.Item2);
+            }
+        }
+
+        public string GetRelationString()
+        {
+            StringBuilder sb = new StringBuilder("Отношение:\n");
+            foreach (var pair in relation)
+            {
+                sb.AppendLine($"({pair.Item1}, {pair.Item2})");
+            }
+            return sb.ToString();
+        }
+
+        private bool IsReflexive()
+        {
+            foreach (var element in elements)
+            {
+                if (!relation.Contains(Tuple.Create(element, element)))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsIrreflexive()
+        {
+            foreach (var element in elements)
+            {
+                if (relation.Contains(Tuple.Create(element, element)))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsSymmetric()
+        {
+            foreach (var pair in relation)
+            {
+                if (!relation.Contains(Tuple.Create(pair.Item2, pair.Item1)))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsAntisymmetric()
+        {
+            foreach (var pair in relation)
+            {
+                if (pair.Item1 != pair.Item2 && relation.Contains(Tuple.Create(pair.Item2, pair.Item1)))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsTransitive()
+        {
+            foreach (var pair1 in relation)
+            {
+                foreach (var pair2 in relation)
+                {
+                    if (pair1.Item2 == pair2.Item1)
+                    {
+                        if (!relation.Contains(Tuple.Create(pair1.Item1, pair2.Item2)))
+                            return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public string GetRelationTypeString()
+        {
+            StringBuilder sb = new StringBuilder("\nПроверка свойств отношения:\n\n");
+            sb.AppendLine($"Рефлексивность: {IsReflexive()}");
+            sb.AppendLine($"Антирефлексивность: {IsIrreflexive()}");
+            sb.AppendLine($"Симметричность: {IsSymmetric()}");
+            sb.AppendLine($"Антисимметричность: {IsAntisymmetric()}");
+            sb.AppendLine($"Транзитивность: {IsTransitive()}");
+
+            if (IsReflexive() && IsTransitive() && IsAntisymmetric())
+                sb.AppendLine("\nОтношение является отношением частичного порядка.");
+            else if (IsReflexive() && IsSymmetric() && IsTransitive())
+                sb.AppendLine("\nОтношение является отношением эквивалентности.");
+            else
+                sb.AppendLine("\nОтношение не является ни отношением частичного порядка, ни отношением эквивалентности.");
+
+            return sb.ToString();
+        }
+    }
+
+    private class Movie
+    {
+        public string Title { get; set; }
+        public int Year { get; set; }
+        public string Genre { get; set; }
+        public string Type { get; set; }
+
+        public Movie(string title, int year, string genre, string type)
+        {
+            Title = title;
+            Year = year;
+            Genre = genre;
+            Type = type;
+        }
+
+        public override string ToString()
+        {
+            return $"{Title} ({Year}), {Genre}, {Type}";
+        }
+    }
+
+    private class EquivalenceClasses
+    {
+        private List<Movie> movies;
+        private Dictionary<string, List<int>> equivalenceClassesByGenre;
+
+        public EquivalenceClasses(List<Movie> movies)
+        {
+            this.movies = movies;
+            this.equivalenceClassesByGenre = new Dictionary<string, List<int>>();
+            GenerateEquivalenceClasses();
+        }
+
+        private void GenerateEquivalenceClasses()
+        {
+            for (int i = 0; i < movies.Count; i++)
+            {
+                if (!equivalenceClassesByGenre.ContainsKey(movies[i].Genre))
+                    equivalenceClassesByGenre[movies[i].Genre] = new List<int>();
+
+                equivalenceClassesByGenre[movies[i].Genre].Add(i);
+            }
+        }
+
+        public string GetEquivalenceClassesString()
+        {
+            StringBuilder sb = new StringBuilder("\nКлассы эквивалентности:\n");
+            int classIndex = 0;
+            foreach (var genreClass in equivalenceClassesByGenre)
+            {
+                sb.AppendLine($"Класс {classIndex}:");
+                foreach (var movieIndex in genreClass.Value)
+                {
+                    sb.AppendLine($"  - {movies[movieIndex]}");
+                }
+                classIndex++;
+            }
+            return sb.ToString();
+        }
+    }
+
+    private List<Movie> GetMoviesList()
+    {
+        return new List<Movie>()
+        {
+            new Movie("The Shawshank Redemption", 1994, "Drama", "Film"),
+            new Movie("The Godfather", 1972, "Crime", "Film"),
+            new Movie("Toy Story", 1995, "Family", "Animation"),
+            new Movie("The Dark Knight", 2008, "Action", "Film"),
+            new Movie("Pulp Fiction", 1994, "Crime", "Film"),
+            new Movie("Forrest Gump", 1994, "Drama", "Film"),
+            new Movie("The Lion King", 1994, "Family", "Animation"),
+            new Movie("Inception", 2010, "Sci-Fi", "Film"),
+            new Movie("The Matrix", 1999, "Sci-Fi", "Film"),
+            new Movie("Spirited Away", 2001, "Fantasy", "Animation"),
+            new Movie("Goodfellas", 1990, "Crime", "Film"),
+            new Movie("The Silence of the Lambs", 1991, "Thriller", "Film"),
+            new Movie("Finding Nemo", 2003, "Family", "Animation"),
+            new Movie("Saving Private Ryan", 1998, "War", "Film"),
+            new Movie("Shrek", 2001, "Family", "Animation")
+        };
+    }
+}

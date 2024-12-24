@@ -111,6 +111,14 @@
                             BorderThickness="0"
                             Click="Task1MachSolution_Click"/>
 
+                    <Button Content="Задание 2"
+                            Height="35"
+                            Margin="8,5"
+                            Background="#3E3E42"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Click="Task2MachSolution_Click"/>
+
                     <!-- <Button Content="Задание 3" -->
                     <!--         Height="35" -->
                     <!--         Margin="8,5" -->
@@ -295,7 +303,6 @@
                                 Width="200" Height="30"
                                 Margin="5"
                                 Click="CompareEvents_Click"/>
-                        <!-- Add inside Task9InputPanel StackPanel, after existing buttons -->
                         <StackPanel Orientation="Horizontal" Margin="5">
                           <Button Content="Загрузить из файла"
                                   Width="150" Height="30"
@@ -366,12 +373,12 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Input Panel -->
+                    <!-- Панель ввода -->
                     <StackPanel Grid.Column="0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Margin="20,0,40,0">
-                        <!-- Existing input fields -->
+                        <!-- Существующие поля ввода -->
                         <TextBlock Text="Введите первое множество (через запятую):"
                                    Foreground="White"
                                    Margin="0,0,0,10"/>
