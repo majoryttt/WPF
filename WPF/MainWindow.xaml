@@ -119,13 +119,13 @@
                             BorderThickness="0"
                             Click="Task2MachSolution_Click"/>
 
-                    <!-- <Button Content="Задание 3" -->
-                    <!--         Height="35" -->
-                    <!--         Margin="8,5" -->
-                    <!--         Background="#3E3E42" -->
-                    <!--         Foreground="White" -->
-                    <!--         BorderThickness="0" -->
-                    <!--         Click="Task3MachSolution_Click"/> -->
+                    <Button Content="Задание 3"
+                            Height="35"
+                            Margin="8,5"
+                            Background="#3E3E42"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Click="Task3MachSolution_Click"/>
 
                     <Button Content="Задание 4"
                             Height="35"

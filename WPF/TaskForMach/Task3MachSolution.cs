@@ -1,135 +1,151 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Text;
-//
-// namespace WPF.TaskForMach;
-//
-// public class Task3MachSolution
-// {
-//     public static string GetSolution()
-//     {
-//         var sb = new StringBuilder();
-//         bool[] vars = { false, true };
-//
-//         sb.AppendLine(" x | y | z | f(x, y, z)");
-//         sb.AppendLine("---------------------");
-//
-//         List<string> minterms = new List<string>();
-//         List<string> maxterms = new List<string>();
-//
-//         foreach (bool x in vars)
-//         {
-//             foreach (bool y in vars)
-//             {
-//                 foreach (bool z in vars)
-//                 {
-//                     bool fx = ((x ^ true) && (y ^ true) && !z) || (y && z);
-//                     sb.AppendLine($" {Convert.ToInt32(x)} | {Convert.ToInt32(y)} | {Convert.ToInt32(z)} | {Convert.ToInt32(fx)}");
-//
-//                     if (fx)
-//                     {
-//                         minterms.Add($"{Convert.ToInt32(x)}{Convert.ToInt32(y)}{Convert.ToInt32(z)}");
-//                     }
-//                     else
-//                     {
-//                         maxterms.Add($"{Convert.ToInt32(x)}{Convert.ToInt32(y)}{Convert.ToInt32(z)}");
-//                     }
-//                 }
-//             }
-//         }
-//
-//         sb.AppendLine("\nСДНФ:");
-//         List<string> sdnf = new List<string>();
-//         foreach (var minterm in minterms)
-//         {
-//             string term = "";
-//             if (minterm[0] == '1') term += "x"; else term += "!x";
-//             if (minterm[1] == '1') term += "y"; else term += "!y";
-//             if (minterm[2] == '1') term += "z"; else term += "!z";
-//             sdnf.Add(term);
-//         }
-//         sb.AppendLine(string.Join(" | ", sdnf));
-//
-//         sb.AppendLine("\nСКНФ:");
-//         List<string> sknf = new List<string>();
-//         foreach (var maxterm in maxterms)
-//         {
-//             string term = "(";
-//             if (maxterm[0] == '0') term += "x | "; else term += "!x | ";
-//             if (maxterm[1] == '0') term += "y | "; else term += "!y | ";
-//             if (maxterm[2] == '0') term += "z"; else term += "!z";
-//             term += ")";
-//             sknf.Add(term);
-//         }
-//         sb.AppendLine(string.Join(" & ", sknf));
-//
-//         sb.AppendLine("\nМДНФ:");
-//         string mdnf = MinimizeMinterms(minterms);
-//         sb.AppendLine(mdnf);
-//
-//         return sb.ToString();
-//     }
-//
-//     private static string MinimizeMinterms(List<string> minterms)
-//     {
-//         List<string> groups = new List<string>();
-//         groups.AddRange(minterms);
-//
-//         while (true)
-//         {
-//             List<string> newGroups = new List<string>();
-//             bool combined = false;
-//
-//             for (int i = 0; i < groups.Count; i++)
-//             {
-//                 for (int j = i + 1; j < groups.Count; j++)
-//                 {
-//                     string combinedTerm = CombineTerms(groups[i], groups[j]);
-//                     if (combinedTerm != null)
-//                     {
-//                         newGroups.Add(combinedTerm);
-//                         combined = true;
-//                     }
-//                 }
-//             }
-//
-//             if (!combined)
-//                 break;
-//
-//             groups = new List<string>(newGroups);
-//         }
-//
-//         List<string> minimizedTerms = new List<string>();
-//         foreach (var term in groups)
-//         {
-//             string minimizedTerm = "";
-//             if (term[0] != '-') minimizedTerm += term[0] == '1' ? "x" : "!x";
-//             if (term[1] != '-') minimizedTerm += term[1] == '1' ? "y" : "!y";
-//             if (term[2] != '-') minimizedTerm += term[2] == '1' ? "z" : "!z";
-//             minimizedTerms.Add(minimizedTerm);
-//         }
-//
-//         return string.Join(" | ", minimizedTerms);
-//     }
-//
-//     private static string CombineTerms(string term1, string term2)
-//     {
-//         int differences = 0;
-//         char[] combined = term1.ToCharArray();
-//
-//         for (int i = 0; i < term1.Length; i++)
-//         {
-//             if (term1[i] != term2[i])
-//             {
-//                 differences++;
-//                 combined[i] = '-';
-//             }
-//         }
-//
-//         if (differences == 1)
-//             return new string(combined);
-//
-//         return null;
-//     }
-// }
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace WPF.TaskForMach
+{
+    public static class Task3MachSolution
+    {
+        public static string GetSolution()
+        {
+            StringBuilder result = new StringBuilder();
+            try
+            {
+                result.AppendLine("Логическая функция:");
+                result.AppendLine("F(x,y,z) = !x | (y & !z) | (!y & z)");
+                result.AppendLine();
+
+                bool[] values = { false, true };
+                string[] variables = { "x", "y", "z" };
+
+                var table = new List<(bool[] Values, bool Result)>();
+                foreach (var x in values)
+                {
+                    foreach (var y in values)
+                    {
+                        foreach (var z in values)
+                        {
+                            bool[] val = { x, y, z };
+                            bool expressionResult = EvaluateExpression(x, y, z);
+                            table.Add((val, expressionResult));
+                        }
+                    }
+                }
+
+                var sdnfTerms = table.Where(row => row.Result)
+                    .Select(row => row.Values.Select(b => b ? 1 : 0).ToArray())
+                    .ToList();
+                var sknfTerms = table.Where(row => !row.Result)
+                    .Select(row => row.Values.Select(b => b ? 0 : 1).ToArray())
+                    .ToList();
+
+                string sdnf = string.Join(" | ", sdnfTerms.Select(term => $"({Term(term, variables)})"));
+                string sknf = string.Join(" & ", sknfTerms.Select(term => $"({Term(term, variables)})"));
+
+                var minSdnfTerms = QuineMcCluskey(sdnfTerms, variables);
+                string minSdnf = string.Join(" | ", minSdnfTerms.Select(term => $"({term})"));
+
+                result.AppendLine("Таблица истинности:");
+                result.AppendLine(" x | y | z | Результат ");
+                result.AppendLine("-----------------------");
+                foreach (var row in table)
+                {
+                    result.AppendLine($" {Convert.ToInt32(row.Values[0])} | {Convert.ToInt32(row.Values[1])} | {Convert.ToInt32(row.Values[2])} |    {Convert.ToInt32(row.Result)}");
+                }
+
+                result.AppendLine($"\nСДНФ: {sdnf}");
+                result.AppendLine($"СКНФ: {sknf}");
+                result.AppendLine($"МДНФ: {minSdnf}");
+            }
+            catch (Exception ex)
+            {
+                result.AppendLine($"Произошла ошибка: {ex.Message}");
+            }
+            finally
+            {
+                result.AppendLine("\nПрограмма завершена.");
+            }
+
+            return result.ToString();
+        }
+
+        private static bool EvaluateExpression(bool x, bool y, bool z)
+        {
+            return !x || (y && !z) || (!y && z);
+        }
+
+        private static string Term(int[] values, string[] variables)
+        {
+            var terms = new List<string>();
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (values[i] == 1)
+                    terms.Add(variables[i]);
+                else if (values[i] == 0)
+                    terms.Add($"!{variables[i]}");
+            }
+            return string.Join(" & ", terms);
+        }
+
+        private static List<string> QuineMcCluskey(List<int[]> minterms, string[] variables)
+        {
+            var primeImplicants = new List<int[]>();
+            var newMinterms = new List<int[]>();
+
+            while (minterms.Count > 0)
+            {
+                newMinterms.Clear();
+                bool[] combined = new bool[minterms.Count];
+                for (int i = 0; i < minterms.Count; i++)
+                {
+                    for (int j = i + 1; j < minterms.Count; j++)
+                    {
+                        int diffCount = 0;
+                        int[] combinedMinterm = new int[minterms[i].Length];
+                        for (int k = 0; k < minterms[i].Length; k++)
+                        {
+                            if (minterms[i][k] != minterms[j][k])
+                            {
+                                combinedMinterm[k] = -1;
+                                diffCount++;
+                            }
+                            else
+                            {
+                                combinedMinterm[k] = minterms[i][k];
+                            }
+                        }
+                        if (diffCount == 1)
+                        {
+                            combined[i] = true;
+                            combined[j] = true;
+                            newMinterms.Add(combinedMinterm);
+                        }
+                    }
+                }
+                for (int i = 0; i < minterms.Count; i++)
+                {
+                    if (!combined[i])
+                        primeImplicants.Add(minterms[i]);
+                }
+                minterms = newMinterms.Distinct().ToList();
+            }
+
+            var terms = new List<string>();
+            foreach (var minterm in primeImplicants)
+            {
+                var termParts = new List<string>();
+                for (int i = 0; i < minterm.Length; i++)
+                {
+                    if (minterm[i] == 1)
+                        termParts.Add(variables[i]);
+                    else if (minterm[i] == 0)
+                        termParts.Add($"!{variables[i]}");
+                }
+                terms.Add(string.Join(" & ", termParts));
+            }
+
+            return terms;
+        }
+    }
+}

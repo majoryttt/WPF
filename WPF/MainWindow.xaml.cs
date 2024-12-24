@@ -426,12 +426,13 @@ public partial class MainWindow : Window
       ReturnButton.Visibility = Visibility.Visible;
     }
 
-    // private void Task3MachSolution_Click(object sender, RoutedEventArgs e)
-    // {
-    //     ResultTextBlock.Text = Task3MachSolution.GetSolution();
-    //     ResultTextBlock.Visibility = Visibility.Visible;
-    //     ReturnButton.Visibility = Visibility.Visible;
-    // }
+    private void Task3MachSolution_Click(object sender, RoutedEventArgs e)
+    {
+        ResultTextBlock.Text = Task3MachSolution.GetSolution();
+        ResultTextBlock.Visibility = Visibility.Visible;
+        ReturnButton.Visibility = Visibility.Visible;
+    }
+
     private void Task4MachSolution_Click(object sender, RoutedEventArgs e)
     {
         Task4MachPanel.Visibility = Visibility.Visible;
