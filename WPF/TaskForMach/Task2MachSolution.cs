@@ -11,11 +11,16 @@ public class Task2MachSolution
 
         var relation = new List<Tuple<int, int>>()
         {
-            Tuple.Create(0, 1),
-            Tuple.Create(1, 3),
+            Tuple.Create(1, 1),
+            Tuple.Create(2, 2),
+            Tuple.Create(3, 3),
+            Tuple.Create(1, 2),
+            Tuple.Create(2, 1),
             Tuple.Create(2, 3),
-            Tuple.Create(4, 5),
-            Tuple.Create(5, 6)
+            Tuple.Create(3, 2),
+            Tuple.Create(1, 3),
+            Tuple.Create(3, 1)
+
         };
 
         var br = new BinaryRelation(relation);
