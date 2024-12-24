@@ -5,10 +5,12 @@ using System.Text;
 
 public class Task2MachSolution
 {
+    // Основной метод решения задачи
     public string Solve()
     {
         StringBuilder result = new StringBuilder();
 
+        // Создание бинарного отношения в виде пар чисел
         var relation = new List<Tuple<int, int>>()
         {
             Tuple.Create(1, 1),
@@ -20,13 +22,14 @@ public class Task2MachSolution
             Tuple.Create(3, 2),
             Tuple.Create(1, 3),
             Tuple.Create(3, 1)
-
         };
 
+        // Создание объекта для анализа бинарного отношения
         var br = new BinaryRelation(relation);
         result.AppendLine(br.GetRelationString());
         result.AppendLine(br.GetRelationTypeString());
 
+        // Создание и анализ классов эквивалентности для списка фильмов
         var movies = GetMoviesList();
         var ec = new EquivalenceClasses(movies);
         result.AppendLine(ec.GetEquivalenceClassesString());
@@ -34,16 +37,19 @@ public class Task2MachSolution
         return result.ToString();
     }
 
+    // Класс для работы с бинарными отношениями
     private class BinaryRelation
     {
         private List<Tuple<int, int>> relation;
-        private HashSet<int> elements;
+        private HashSet<int> elements; // Множество уникальных элементов отношения
 
+        // Конструктор класса
         public BinaryRelation(List<Tuple<int, int>> relation)
         {
             this.relation = relation;
             this.elements = new HashSet<int>();
 
+            // Заполнение множества уникальных элементов
             foreach (var pair in relation)
             {
                 elements.Add(pair.Item1);
@@ -51,6 +57,7 @@ public class Task2MachSolution
             }
         }
 
+        // Метод для вывода отношения в строковом виде
         public string GetRelationString()
         {
             StringBuilder sb = new StringBuilder("Отношение:\n");
@@ -61,6 +68,8 @@ public class Task2MachSolution
             return sb.ToString();
         }
 
+        // Проверка рефлексивности отношения
+        // Рефлексивность - это свойство, при котором каждый элемент находится в отношении с самим собой.
         private bool IsReflexive()
         {
             foreach (var element in elements)
@@ -71,6 +80,8 @@ public class Task2MachSolution
             return true;
         }
 
+        // Проверка антирефлексивности отношения
+        // Антирефлексивность - это свойство, при котором ни один элемент не находится в отношении с самим собой.
         private bool IsIrreflexive()
         {
             foreach (var element in elements)
@@ -81,6 +92,8 @@ public class Task2MachSolution
             return true;
         }
 
+        // Проверка симметричности отношения
+        // Симметричность - это свойство, при котором если элемент a находится в отношении с элементом b, то элемент b находится в отношении с элементом a.
         private bool IsSymmetric()
         {
             foreach (var pair in relation)
@@ -91,6 +104,8 @@ public class Task2MachSolution
             return true;
         }
 
+        // Проверка антисимметричности отношения
+        // Антисимметричность - это свойство, при котором если элемент a находится в отношении с элементом b, то элемент b не может находиться в отношении с элементом a, если a не равно b.
         private bool IsAntisymmetric()
         {
             foreach (var pair in relation)
@@ -101,6 +116,8 @@ public class Task2MachSolution
             return true;
         }
 
+        // Проверка транзитивности отношения
+        // Транзитивность - это свойство, при котором если элемент a находится в отношении с элементом b, а элемент b находится в отношении с элементом c, то элемент a находится в отношении с элементом c.
         private bool IsTransitive()
         {
             foreach (var pair1 in relation)
@@ -117,6 +134,7 @@ public class Task2MachSolution
             return true;
         }
 
+        // Метод для определения типа отношения и вывода результатов проверки свойств
         public string GetRelationTypeString()
         {
             StringBuilder sb = new StringBuilder("\nПроверка свойств отношения:\n\n");
@@ -126,6 +144,7 @@ public class Task2MachSolution
             sb.AppendLine($"Антисимметричность: {IsAntisymmetric()}");
             sb.AppendLine($"Транзитивность: {IsTransitive()}");
 
+            // Определение типа отношения на основе свойств
             if (IsReflexive() && IsTransitive() && IsAntisymmetric())
                 sb.AppendLine("\nОтношение является отношением частичного порядка.");
             else if (IsReflexive() && IsSymmetric() && IsTransitive())
@@ -137,6 +156,7 @@ public class Task2MachSolution
         }
     }
 
+    // Класс для представления фильма
     private class Movie
     {
         public string Title { get; set; }
@@ -144,6 +164,7 @@ public class Task2MachSolution
         public string Genre { get; set; }
         public string Type { get; set; }
 
+        // Конструктор класса Movie
         public Movie(string title, int year, string genre, string type)
         {
             Title = title;
@@ -152,17 +173,20 @@ public class Task2MachSolution
             Type = type;
         }
 
+        // Переопределение метода ToString для удобного вывода информации о фильме
         public override string ToString()
         {
             return $"{Title} ({Year}), {Genre}, {Type}";
         }
     }
 
+    // Класс для работы с классами эквивалентности
     private class EquivalenceClasses
     {
         private List<Movie> movies;
         private Dictionary<string, List<int>> equivalenceClassesByGenre;
 
+        // Конструктор класса
         public EquivalenceClasses(List<Movie> movies)
         {
             this.movies = movies;
@@ -170,6 +194,7 @@ public class Task2MachSolution
             GenerateEquivalenceClasses();
         }
 
+        // Метод для генерации классов эквивалентности по жанрам
         private void GenerateEquivalenceClasses()
         {
             for (int i = 0; i < movies.Count; i++)
@@ -181,6 +206,7 @@ public class Task2MachSolution
             }
         }
 
+        // Метод для вывода классов эквивалентности в строковом виде
         public string GetEquivalenceClassesString()
         {
             StringBuilder sb = new StringBuilder("\nКлассы эквивалентности:\n");
@@ -198,6 +224,7 @@ public class Task2MachSolution
         }
     }
 
+    // Метод для создания тестового списка фильмов
     private List<Movie> GetMoviesList()
     {
         return new List<Movie>()
